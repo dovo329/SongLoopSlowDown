@@ -86,7 +86,7 @@ const CGFloat numberOfVerticalDivisions = 12.0;
     self.endLoopbackSlider.maximumValue = self.audioPlayer.duration;
     self.endLoopbackSlider.value = self.audioPlayer.duration;
     
-    self.playSpeedSlider.minimumValue = 0.0;
+    self.playSpeedSlider.minimumValue = 0.1;
     self.playSpeedSlider.maximumValue = 2.0;
     self.playSpeedSlider.value = 1.0;
 }
