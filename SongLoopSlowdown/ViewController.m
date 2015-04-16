@@ -139,10 +139,10 @@ const CGFloat speedPrecision = 0.01;
 
 - (void)updateSliderLabels
 {
-    [self.positionLabel setText:[NSString stringWithFormat:@"Position: %0.2f seconds", self.positionSlider.value]];
-    [self.startLoopbackLabel setText:[NSString stringWithFormat:@"Start Loopback: %0.2f seconds", self.startLoopbackSlider.value]];
-    [self.endLoopbackLabel setText:[NSString stringWithFormat:@"End Loopback: %0.2f seconds", self.endLoopbackSlider.value]];
-    [self.playSpeedLabel setText:[NSString stringWithFormat:@"Speed: %0.2f percent", self.playSpeedSlider.value*100.0]];
+    [self.positionLabel setText:[NSString stringWithFormat:@"Position: %0.1f seconds", self.positionSlider.value]];
+    [self.startLoopbackLabel setText:[NSString stringWithFormat:@"Start Loopback: %0.1f seconds", self.startLoopbackSlider.value]];
+    [self.endLoopbackLabel setText:[NSString stringWithFormat:@"End Loopback: %0.1f seconds", self.endLoopbackSlider.value]];
+    [self.playSpeedLabel setText:[NSString stringWithFormat:@"Speed: %0.0f percent", self.playSpeedSlider.value*100.0]];
 }
 
 - (void)updatePositionTimerHandler
@@ -204,10 +204,21 @@ const CGFloat speedPrecision = 0.01;
     [self.view addSubview:self.positionSlider];
 }
 
+- (void)clipStartAndPositionSliders
+{
+    if (self.positionSlider.value < self.startLoopbackSlider.value)
+    {
+        self.positionSlider.value = self.startLoopbackSlider.value;
+        self.audioPlayer.currentTime = self.positionSlider.value;
+    }
+}
+
 - (IBAction)startLoopbackPlusButtonHandler
 {
     self.startLoopbackSlider.value += loopPrecision;
     [self clipLoopbackSliders];
+    [self clipStartAndPositionSliders];
+    
     [self updateSliderLabels];
 }
 
@@ -215,12 +226,16 @@ const CGFloat speedPrecision = 0.01;
 {
     self.startLoopbackSlider.value -= loopPrecision;
     [self clipLoopbackSliders];
+    [self clipStartAndPositionSliders];
+    
     [self updateSliderLabels];
 }
 
 -(void)startLoopbackSliderAction:(id)sender
 {
     [self clipLoopbackSliders];
+    [self clipStartAndPositionSliders];
+    
     [self updateSliderLabels];
 }
 
@@ -297,10 +312,20 @@ const CGFloat speedPrecision = 0.01;
     }
 }
 
+- (void)clipEndAndPositionSliders
+{
+    if (self.positionSlider.value > self.endLoopbackSlider.value)
+    {
+        self.positionSlider.value = self.endLoopbackSlider.value;
+        self.audioPlayer.currentTime = self.positionSlider.value;
+    }
+}
+
 - (IBAction)endLoopbackPlusButtonHandler
 {
     self.endLoopbackSlider.value += loopPrecision;
     [self clipLoopbackSliders];
+    [self clipEndAndPositionSliders];
     [self updateSliderLabels];
 }
 
@@ -308,12 +333,14 @@ const CGFloat speedPrecision = 0.01;
 {
     self.endLoopbackSlider.value -= loopPrecision;
     [self clipLoopbackSliders];
+    [self clipEndAndPositionSliders];
     [self updateSliderLabels];
 }
 
 -(void)endLoopbackSliderAction:(id)sender
 {
     [self clipLoopbackSliders];
+    [self clipEndAndPositionSliders];
     //NSLog(@"end loopback slider value = %0.2f", slider.value);
     [self updateSliderLabels];
 }
