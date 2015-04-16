@@ -18,20 +18,29 @@
 
 @property (strong, nonatomic) UILabel  *positionLabel;
 @property (strong, nonatomic) UISlider *positionSlider;
+
 @property (strong, nonatomic) UILabel  *startLoopbackLabel;
 @property (strong, nonatomic) UISlider *startLoopbackSlider;
 @property (strong, nonatomic) UIButton *startLoopbackMinusButton;
 @property (strong, nonatomic) UIButton *startLoopbackPlusButton;
+
 @property (strong, nonatomic) UILabel  *endLoopbackLabel;
 @property (strong, nonatomic) UISlider *endLoopbackSlider;
 @property (strong, nonatomic) UIButton *endLoopbackMinusButton;
 @property (strong, nonatomic) UIButton *endLoopbackPlusButton;
+
+@property (strong, nonatomic) UILabel  *playSpeedLabel;
+@property (strong, nonatomic) UISlider *playSpeedSlider;
+@property (strong, nonatomic) UIButton *playSpeedMinusButton;
+@property (strong, nonatomic) UIButton *playSpeedPlusButton;
 
 @property (strong, nonatomic) NSTimer *updatePositionTimer;
 
 @end
 
 const CGFloat carrierBarOffset = 20.0;
+const CGFloat numberOfHorizontalDivisions = 8.0;
+const CGFloat numberOfVerticalDivisions = 12.0;
 
 @implementation ViewController
 
@@ -53,6 +62,7 @@ const CGFloat carrierBarOffset = 20.0;
     [self createPositionSlider];
     [self createStartLoopbackSlider];
     [self createEndLoopbackSlider];
+    [self createPlaySpeedSlider];
 
     self.updatePositionTimer =
     [NSTimer scheduledTimerWithTimeInterval:0.5
@@ -75,12 +85,16 @@ const CGFloat carrierBarOffset = 20.0;
     self.endLoopbackSlider.minimumValue = 0.0;
     self.endLoopbackSlider.maximumValue = self.audioPlayer.duration;
     self.endLoopbackSlider.value = self.audioPlayer.duration;
+    
+    self.playSpeedSlider.minimumValue = 0.0;
+    self.playSpeedSlider.maximumValue = 1.0;
+    self.playSpeedSlider.value = 1.0;
 }
 
 - (void)createButtons {
     CGRect mainRect = [[UIScreen mainScreen] bounds];
     CGFloat buttonWidth = CGRectGetWidth(mainRect);
-    CGFloat buttonHeight = CGRectGetHeight(mainRect)/8.0;
+    CGFloat buttonHeight = CGRectGetHeight(mainRect)/numberOfVerticalDivisions;
     CGRect buttonRect = CGRectMake(CGRectGetMidX(mainRect)-buttonWidth/2.0, CGRectGetMinY(mainRect)+carrierBarOffset, buttonWidth, buttonHeight);
     self.pickSongButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.pickSongButton addTarget:self action:@selector(pickSong) forControlEvents:UIControlEventTouchUpInside];
@@ -111,7 +125,7 @@ const CGFloat carrierBarOffset = 20.0;
     MPMediaItem *item = [[collection items] objectAtIndex:0];
     NSString *title = [item valueForProperty:MPMediaItemPropertyTitle];
     NSString *artist = [item valueForProperty:MPMediaItemPropertyArtist];
-    NSString *topDisplayTitle = [NSString stringWithFormat:@"%@: %@", title, artist];
+    NSString *topDisplayTitle = [NSString stringWithFormat:@"Pick Song: %@: %@", title, artist];
     [self.pickSongButton setTitle:topDisplayTitle forState:UIControlStateNormal];
     
     // get a URL reference to the selected item
@@ -137,7 +151,7 @@ const CGFloat carrierBarOffset = 20.0;
     [self.positionLabel setText:[NSString stringWithFormat:@"Position: %0.2f", self.positionSlider.value]];
     [self.startLoopbackLabel setText:[NSString stringWithFormat:@"Start Loopback: %0.2f", self.startLoopbackSlider.value]];
     [self.endLoopbackLabel setText:[NSString stringWithFormat:@"End Loopback: %0.2f", self.endLoopbackSlider.value]];
-    
+    [self.playSpeedLabel setText:[NSString stringWithFormat:@"Speed: %0.2f", self.playSpeedSlider.value]];
 }
 
 -(void)positionSliderAction:(id)sender
@@ -150,10 +164,10 @@ const CGFloat carrierBarOffset = 20.0;
 -(IBAction)createPositionSlider
 {
     CGRect screenRect = [UIScreen mainScreen].bounds;
-    CGFloat frameWidth = CGRectGetWidth(screenRect)*(6.0/8.0);
-    CGFloat frameHeight = CGRectGetHeight(screenRect)*(1.0/8.0);
-    CGFloat frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/8.0));
-    CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(2.0/8.0));
+    CGFloat frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
+    CGFloat frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
+    CGFloat frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
+    CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(2.0/numberOfVerticalDivisions));
     CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.positionLabel = [[UILabel alloc] initWithFrame:frame];
@@ -161,10 +175,10 @@ const CGFloat carrierBarOffset = 20.0;
     [self.positionLabel setTextColor:[UIColor blackColor]];
     [self.view addSubview:self.positionLabel];
     
-    frameWidth = CGRectGetWidth(screenRect)*(6.0/8.0);
-    frameHeight = CGRectGetHeight(screenRect)*(1.0/8.0);
-    frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/8.0));
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(3.0/8.0));
+    frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
+    frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
+    frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(3.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.positionSlider = [[UISlider alloc] initWithFrame:frame];
@@ -201,10 +215,10 @@ const CGFloat carrierBarOffset = 20.0;
 -(IBAction)createStartLoopbackSlider
 {
     CGRect screenRect = [UIScreen mainScreen].bounds;
-    CGFloat frameWidth = CGRectGetWidth(screenRect)*(6.0/8.0);
-    CGFloat frameHeight = CGRectGetHeight(screenRect)*(1.0/8.0);
-    CGFloat frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/8.0));
-    CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(4.0/8.0));
+    CGFloat frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
+    CGFloat frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
+    CGFloat frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
+    CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(4.0/numberOfVerticalDivisions));
     CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.startLoopbackLabel = [[UILabel alloc] initWithFrame:frame];
@@ -212,10 +226,10 @@ const CGFloat carrierBarOffset = 20.0;
     [self.startLoopbackLabel setTextColor:[UIColor blackColor]];
     [self.view addSubview:self.startLoopbackLabel];
     
-    frameWidth = CGRectGetWidth(screenRect)*(6.0/8.0);
-    frameHeight = CGRectGetHeight(screenRect)*(1.0/8.0);
-    frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/8.0));
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(5.0/8.0));
+    frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
+    frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
+    frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(5.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.startLoopbackSlider = [[UISlider alloc] initWithFrame:frame];
@@ -235,10 +249,10 @@ const CGFloat carrierBarOffset = 20.0;
     
     [self.view addSubview:self.startLoopbackSlider];
     
-    frameWidth = CGRectGetWidth(screenRect)*(1.0/8.0);
-    frameHeight = CGRectGetHeight(screenRect)*(1.0/8.0);
+    frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
+    frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     frameX = CGRectGetMinX(screenRect);
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(5.0/8.0));
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(5.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     self.startLoopbackMinusButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.startLoopbackMinusButton addTarget:self action:@selector(startLoopbackMinusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
@@ -248,10 +262,10 @@ const CGFloat carrierBarOffset = 20.0;
     [self.startLoopbackMinusButton setTitle:@"-" forState:UIControlStateNormal];
     [self.view addSubview:self.startLoopbackMinusButton];
     
-    frameWidth = CGRectGetWidth(screenRect)*(1.0/8.0);
-    frameHeight = CGRectGetHeight(screenRect)*(1.0/8.0);
-    frameX = CGRectGetMinX(screenRect)+CGRectGetWidth(screenRect)*(7.0/8.0);
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(5.0/8.0));
+    frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
+    frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
+    frameX = CGRectGetMinX(screenRect)+CGRectGetWidth(screenRect)*((numberOfHorizontalDivisions-1.0)/numberOfHorizontalDivisions);
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(5.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     self.startLoopbackPlusButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.startLoopbackPlusButton addTarget:self action:@selector(startLoopbackPlusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
@@ -284,10 +298,10 @@ const CGFloat carrierBarOffset = 20.0;
 -(IBAction)createEndLoopbackSlider
 {
     CGRect screenRect = [UIScreen mainScreen].bounds;
-    CGFloat frameWidth = CGRectGetWidth(screenRect)*(6.0/8.0);
-    CGFloat frameHeight = CGRectGetHeight(screenRect)*(1.0/8.0);
-    CGFloat frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/8.0));
-    CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(6.0/8.0));
+    CGFloat frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
+    CGFloat frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
+    CGFloat frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
+    CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(6.0/numberOfVerticalDivisions));
     CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.endLoopbackLabel = [[UILabel alloc] initWithFrame:frame];
@@ -295,10 +309,10 @@ const CGFloat carrierBarOffset = 20.0;
     [self.endLoopbackLabel setTextColor:[UIColor blackColor]];
     [self.view addSubview:self.endLoopbackLabel];
     
-    frameWidth = CGRectGetWidth(screenRect)*(6.0/8.0);
-    frameHeight = CGRectGetHeight(screenRect)*(1.0/8.0);
-    frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/8.0));
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(7.0/8.0));
+    frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
+    frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
+    frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(7.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.endLoopbackSlider = [[UISlider alloc] initWithFrame:frame];
@@ -313,10 +327,10 @@ const CGFloat carrierBarOffset = 20.0;
     
     [self.view addSubview:self.endLoopbackSlider];
     
-    frameWidth = CGRectGetWidth(screenRect)*(1.0/8.0);
-    frameHeight = CGRectGetHeight(screenRect)*(1.0/8.0);
+    frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
+    frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     frameX = CGRectGetMinX(screenRect);
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(7.0/8.0));
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(7.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     self.endLoopbackMinusButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.endLoopbackMinusButton addTarget:self action:@selector(endLoopbackMinusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
@@ -326,10 +340,10 @@ const CGFloat carrierBarOffset = 20.0;
     [self.endLoopbackMinusButton setTitle:@"-" forState:UIControlStateNormal];
     [self.view addSubview:self.endLoopbackMinusButton];
     
-    frameWidth = CGRectGetWidth(screenRect)*(1.0/8.0);
-    frameHeight = CGRectGetHeight(screenRect)*(1.0/8.0);
-    frameX = CGRectGetMinX(screenRect)+CGRectGetWidth(screenRect)*(7.0/8.0);
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(7.0/8.0));
+    frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
+    frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
+    frameX = CGRectGetMinX(screenRect)+CGRectGetWidth(screenRect)*((numberOfHorizontalDivisions-1.0)/numberOfHorizontalDivisions);
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(7.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     self.endLoopbackPlusButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.endLoopbackPlusButton addTarget:self action:@selector(endLoopbackPlusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
@@ -338,6 +352,87 @@ const CGFloat carrierBarOffset = 20.0;
     [self.endLoopbackPlusButton setBackgroundColor:[UIColor whiteColor]];
     [self.endLoopbackPlusButton setTitle:@"+" forState:UIControlStateNormal];
     [self.view addSubview:self.endLoopbackPlusButton];
+}
+
+- (IBAction)playSpeedPlusButtonHandler
+{
+    self.playSpeedSlider.value += 0.01;
+    [self.playSpeedLabel setText:[NSString stringWithFormat:@"Speed: %0.2f", self.playSpeedSlider.value]];
+    self.audioPlayer.rate = self.playSpeedSlider.value;
+}
+
+- (IBAction)playSpeedMinusButtonHandler
+{
+    self.playSpeedSlider.value -= 0.01;
+    [self.playSpeedLabel setText:[NSString stringWithFormat:@"Speed: %0.2f", self.playSpeedSlider.value]];
+    self.audioPlayer.rate = self.playSpeedSlider.value;
+}
+
+-(void)playSpeedSliderAction:(id)sender
+{
+    UISlider *slider = (UISlider*)sender;
+    //NSLog(@"end loopback slider value = %0.2f", slider.value);
+    [self.playSpeedLabel setText:[NSString stringWithFormat:@"Speed: %0.2f", self.playSpeedSlider.value]];
+    self.audioPlayer.rate = slider.value;
+}
+
+-(IBAction)createPlaySpeedSlider
+{
+    CGRect screenRect = [UIScreen mainScreen].bounds;
+    CGFloat frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
+    CGFloat frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
+    CGFloat frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
+    CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(8.0/numberOfVerticalDivisions));
+    CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
+    
+    self.playSpeedLabel = [[UILabel alloc] initWithFrame:frame];
+    [self.playSpeedLabel setText:[NSString stringWithFormat:@"End Loopback: %0.2f", self.playSpeedSlider.value]];
+    [self.playSpeedLabel setTextColor:[UIColor blackColor]];
+    [self.view addSubview:self.playSpeedLabel];
+    
+    frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
+    frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
+    frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(9.0/numberOfVerticalDivisions));
+    frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
+    
+    self.playSpeedSlider = [[UISlider alloc] initWithFrame:frame];
+    
+    [self.playSpeedSlider addTarget:self action:@selector(playSpeedSliderAction:) forControlEvents:UIControlEventValueChanged];
+    [self.playSpeedSlider setBackgroundColor:[UIColor whiteColor]];
+    
+    self.playSpeedSlider.value = self.audioPlayer.duration;
+    self.playSpeedSlider.continuous = YES;
+    self.playSpeedSlider.minimumValue = 0.0;
+    self.playSpeedSlider.maximumValue = self.audioPlayer.duration;
+    
+    [self.view addSubview:self.playSpeedSlider];
+    
+    frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
+    frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
+    frameX = CGRectGetMinX(screenRect);
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(9.0/numberOfVerticalDivisions));
+    frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
+    self.playSpeedMinusButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.playSpeedMinusButton addTarget:self action:@selector(playSpeedMinusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
+    self.playSpeedMinusButton.frame = frame;
+    [self.playSpeedMinusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.playSpeedMinusButton setBackgroundColor:[UIColor whiteColor]];
+    [self.playSpeedMinusButton setTitle:@"-" forState:UIControlStateNormal];
+    [self.view addSubview:self.playSpeedMinusButton];
+    
+    frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
+    frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
+    frameX = CGRectGetMinX(screenRect)+CGRectGetWidth(screenRect)*((numberOfHorizontalDivisions-1.0)/numberOfHorizontalDivisions);
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(9.0/numberOfVerticalDivisions));
+    frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
+    self.playSpeedPlusButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.playSpeedPlusButton addTarget:self action:@selector(playSpeedPlusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
+    self.playSpeedPlusButton.frame = frame;
+    [self.playSpeedPlusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.playSpeedPlusButton setBackgroundColor:[UIColor whiteColor]];
+    [self.playSpeedPlusButton setTitle:@"+" forState:UIControlStateNormal];
+    [self.view addSubview:self.playSpeedPlusButton];
 }
 
 - (void)didReceiveMemoryWarning {
