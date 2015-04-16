@@ -42,6 +42,9 @@ const CGFloat carrierBarOffset = 20.0;
 const CGFloat numberOfHorizontalDivisions = 8.0;
 const CGFloat numberOfVerticalDivisions = 12.0;
 
+const CGFloat loopPrecision = 0.1;
+const CGFloat speedPrecision = 0.01;
+
 @implementation ViewController
 
 - (NSUInteger)supportedInterfaceOrientations {
@@ -59,7 +62,7 @@ const CGFloat numberOfVerticalDivisions = 12.0;
     [self createPlaySpeedSlider];
 
     self.updatePositionTimer =
-    [NSTimer scheduledTimerWithTimeInterval:0.5
+    [NSTimer scheduledTimerWithTimeInterval:loopPrecision
                                      target:self
                                    selector:@selector(updatePositionTimerHandler)
                                    userInfo:nil
@@ -125,7 +128,7 @@ const CGFloat numberOfVerticalDivisions = 12.0;
     // get a URL reference to the selected item
     NSURL *url = [item valueForProperty:MPMediaItemPropertyAssetURL];
     
-    NSLog(@"url=%@", url);
+    //NSLog(@"url=%@", url);
     
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     self.audioPlayer.enableRate=YES;
@@ -134,24 +137,37 @@ const CGFloat numberOfVerticalDivisions = 12.0;
     [self.audioPlayer play];
 }
 
+- (void)updateSliderLabels
+{
+    [self.positionLabel setText:[NSString stringWithFormat:@"Position: %0.2f seconds", self.positionSlider.value]];
+    [self.startLoopbackLabel setText:[NSString stringWithFormat:@"Start Loopback: %0.2f seconds", self.startLoopbackSlider.value]];
+    [self.endLoopbackLabel setText:[NSString stringWithFormat:@"End Loopback: %0.2f seconds", self.endLoopbackSlider.value]];
+    [self.playSpeedLabel setText:[NSString stringWithFormat:@"Speed: %0.2f percent", self.playSpeedSlider.value*100.0]];
+}
+
 - (void)updatePositionTimerHandler
 {
-    NSLog(@"update currentTime=%0.2f duration=%0.2f", self.audioPlayer.currentTime, self.audioPlayer.duration);
+    //NSLog(@"update currentTime=%0.2f duration=%0.2f", self.audioPlayer.currentTime, self.audioPlayer.duration);
     self.positionSlider.value = self.audioPlayer.currentTime;
     if (self.positionSlider.value > self.endLoopbackSlider.value) {
         self.positionSlider.value = self.startLoopbackSlider.value;
         self.audioPlayer.currentTime = self.startLoopbackSlider.value;
     }
-    [self.positionLabel setText:[NSString stringWithFormat:@"Position: %0.2f", self.positionSlider.value]];
-    [self.startLoopbackLabel setText:[NSString stringWithFormat:@"Start Loopback: %0.2f", self.startLoopbackSlider.value]];
-    [self.endLoopbackLabel setText:[NSString stringWithFormat:@"End Loopback: %0.2f", self.endLoopbackSlider.value]];
-    [self.playSpeedLabel setText:[NSString stringWithFormat:@"Speed: %0.2f", self.playSpeedSlider.value]];
+    [self updateSliderLabels];
 }
 
 -(void)positionSliderAction:(id)sender
 {
     UISlider *slider = (UISlider*)sender;
-    [self.positionLabel setText:[NSString stringWithFormat:@"Position: %0.2f", self.positionSlider.value]];
+    if (self.positionSlider.value > self.endLoopbackSlider.value) {
+        self.endLoopbackSlider.value = self.positionSlider.value;
+    }
+    
+    if (self.positionSlider.value < self.startLoopbackSlider.value) {
+        self.startLoopbackSlider.value = self.positionSlider.value;
+    }
+    
+    [self updateSliderLabels];
     self.audioPlayer.currentTime = slider.value;
 }
 
@@ -190,23 +206,22 @@ const CGFloat numberOfVerticalDivisions = 12.0;
 
 - (IBAction)startLoopbackPlusButtonHandler
 {
-    self.startLoopbackSlider.value += 0.1;
+    self.startLoopbackSlider.value += loopPrecision;
     [self clipLoopbackSliders];
-    [self.startLoopbackLabel setText:[NSString stringWithFormat:@"Start Loopback: %0.2f", self.startLoopbackSlider.value]];
+    [self updateSliderLabels];
 }
 
 - (IBAction)startLoopbackMinusButtonHandler
 {
-    self.startLoopbackSlider.value -= 0.1;
+    self.startLoopbackSlider.value -= loopPrecision;
     [self clipLoopbackSliders];
-    [self.startLoopbackLabel setText:[NSString stringWithFormat:@"Start Loopback: %0.2f", self.startLoopbackSlider.value]];
+    [self updateSliderLabels];
 }
 
 -(void)startLoopbackSliderAction:(id)sender
 {
-    UISlider *slider = (UISlider*)sender;
     [self clipLoopbackSliders];
-    [self.startLoopbackLabel setText:[NSString stringWithFormat:@"Start Loopback: %0.2f", self.startLoopbackSlider.value]];
+    [self updateSliderLabels];
 }
 
 -(IBAction)createStartLoopbackSlider
@@ -219,7 +234,7 @@ const CGFloat numberOfVerticalDivisions = 12.0;
     CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.startLoopbackLabel = [[UILabel alloc] initWithFrame:frame];
-    [self.startLoopbackLabel setText:[NSString stringWithFormat:@"Start Loopback: %0.2f", self.startLoopbackSlider.value]];
+    [self updateSliderLabels];
     [self.startLoopbackLabel setTextColor:[UIColor blackColor]];
     [self.view addSubview:self.startLoopbackLabel];
     
@@ -284,24 +299,23 @@ const CGFloat numberOfVerticalDivisions = 12.0;
 
 - (IBAction)endLoopbackPlusButtonHandler
 {
-    self.endLoopbackSlider.value += 0.1;
+    self.endLoopbackSlider.value += loopPrecision;
     [self clipLoopbackSliders];
-    [self.endLoopbackLabel setText:[NSString stringWithFormat:@"End Loopback: %0.2f", self.endLoopbackSlider.value]];
+    [self updateSliderLabels];
 }
 
 - (IBAction)endLoopbackMinusButtonHandler
 {
-    self.endLoopbackSlider.value -= 0.1;
+    self.endLoopbackSlider.value -= loopPrecision;
     [self clipLoopbackSliders];
-    [self.endLoopbackLabel setText:[NSString stringWithFormat:@"End Loopback: %0.2f", self.endLoopbackSlider.value]];
+    [self updateSliderLabels];
 }
 
 -(void)endLoopbackSliderAction:(id)sender
 {
-    UISlider *slider = (UISlider*)sender;
     [self clipLoopbackSliders];
     //NSLog(@"end loopback slider value = %0.2f", slider.value);
-    [self.endLoopbackLabel setText:[NSString stringWithFormat:@"End Loopback: %0.2f", self.endLoopbackSlider.value]];
+    [self updateSliderLabels];
 }
 
 -(IBAction)createEndLoopbackSlider
@@ -314,7 +328,7 @@ const CGFloat numberOfVerticalDivisions = 12.0;
     CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.endLoopbackLabel = [[UILabel alloc] initWithFrame:frame];
-    [self.endLoopbackLabel setText:[NSString stringWithFormat:@"End Loopback: %0.2f", self.endLoopbackSlider.value]];
+    [self updateSliderLabels];
     [self.endLoopbackLabel setTextColor:[UIColor blackColor]];
     [self.view addSubview:self.endLoopbackLabel];
     
@@ -365,15 +379,15 @@ const CGFloat numberOfVerticalDivisions = 12.0;
 
 - (IBAction)playSpeedPlusButtonHandler
 {
-    self.playSpeedSlider.value += 0.01;
-    [self.playSpeedLabel setText:[NSString stringWithFormat:@"Speed: %0.2f", self.playSpeedSlider.value]];
+    self.playSpeedSlider.value += speedPrecision;
+    [self updateSliderLabels];
     self.audioPlayer.rate = self.playSpeedSlider.value;
 }
 
 - (IBAction)playSpeedMinusButtonHandler
 {
-    self.playSpeedSlider.value -= 0.01;
-    [self.playSpeedLabel setText:[NSString stringWithFormat:@"Speed: %0.2f", self.playSpeedSlider.value]];
+    self.playSpeedSlider.value -= speedPrecision;
+    [self updateSliderLabels];
     self.audioPlayer.rate = self.playSpeedSlider.value;
 }
 
@@ -381,7 +395,7 @@ const CGFloat numberOfVerticalDivisions = 12.0;
 {
     UISlider *slider = (UISlider*)sender;
     //NSLog(@"end loopback slider value = %0.2f", slider.value);
-    [self.playSpeedLabel setText:[NSString stringWithFormat:@"Speed: %0.2f", self.playSpeedSlider.value]];
+    [self updateSliderLabels];
     self.audioPlayer.rate = slider.value;
 }
 
@@ -395,7 +409,7 @@ const CGFloat numberOfVerticalDivisions = 12.0;
     CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.playSpeedLabel = [[UILabel alloc] initWithFrame:frame];
-    [self.playSpeedLabel setText:[NSString stringWithFormat:@"End Loopback: %0.2f", self.playSpeedSlider.value]];
+    [self updateSliderLabels];
     [self.playSpeedLabel setTextColor:[UIColor blackColor]];
     [self.view addSubview:self.playSpeedLabel];
     
