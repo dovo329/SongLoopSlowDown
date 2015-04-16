@@ -87,7 +87,7 @@ const CGFloat numberOfVerticalDivisions = 12.0;
     self.endLoopbackSlider.value = self.audioPlayer.duration;
     
     self.playSpeedSlider.minimumValue = 0.0;
-    self.playSpeedSlider.maximumValue = 1.0;
+    self.playSpeedSlider.maximumValue = 2.0;
     self.playSpeedSlider.value = 1.0;
 }
 
@@ -197,18 +197,21 @@ const CGFloat numberOfVerticalDivisions = 12.0;
 - (IBAction)startLoopbackPlusButtonHandler
 {
     self.startLoopbackSlider.value += 0.1;
+    [self clipLoopbackSliders];
     [self.startLoopbackLabel setText:[NSString stringWithFormat:@"Start Loopback: %0.2f", self.startLoopbackSlider.value]];
 }
 
 - (IBAction)startLoopbackMinusButtonHandler
 {
     self.startLoopbackSlider.value -= 0.1;
+    [self clipLoopbackSliders];
     [self.startLoopbackLabel setText:[NSString stringWithFormat:@"Start Loopback: %0.2f", self.startLoopbackSlider.value]];
 }
 
 -(void)startLoopbackSliderAction:(id)sender
 {
     UISlider *slider = (UISlider*)sender;
+    [self clipLoopbackSliders];
     [self.startLoopbackLabel setText:[NSString stringWithFormat:@"Start Loopback: %0.2f", self.startLoopbackSlider.value]];
 }
 
@@ -276,21 +279,33 @@ const CGFloat numberOfVerticalDivisions = 12.0;
     [self.view addSubview:self.startLoopbackPlusButton];
 }
 
+- (void)clipLoopbackSliders
+{
+    if (self.startLoopbackSlider.value > self.endLoopbackSlider.value) {
+        self.endLoopbackSlider.value = self.startLoopbackSlider.value;
+    } else if (self.endLoopbackSlider.value < self.startLoopbackSlider.value) {
+        self.startLoopbackSlider.value = self.endLoopbackSlider.value;
+    }
+}
+
 - (IBAction)endLoopbackPlusButtonHandler
 {
     self.endLoopbackSlider.value += 0.1;
+    [self clipLoopbackSliders];
     [self.endLoopbackLabel setText:[NSString stringWithFormat:@"End Loopback: %0.2f", self.endLoopbackSlider.value]];
 }
 
 - (IBAction)endLoopbackMinusButtonHandler
 {
     self.endLoopbackSlider.value -= 0.1;
+    [self clipLoopbackSliders];
     [self.endLoopbackLabel setText:[NSString stringWithFormat:@"End Loopback: %0.2f", self.endLoopbackSlider.value]];
 }
 
 -(void)endLoopbackSliderAction:(id)sender
 {
     UISlider *slider = (UISlider*)sender;
+    [self clipLoopbackSliders];
     //NSLog(@"end loopback slider value = %0.2f", slider.value);
     [self.endLoopbackLabel setText:[NSString stringWithFormat:@"End Loopback: %0.2f", self.endLoopbackSlider.value]];
 }
@@ -401,10 +416,10 @@ const CGFloat numberOfVerticalDivisions = 12.0;
     [self.playSpeedSlider addTarget:self action:@selector(playSpeedSliderAction:) forControlEvents:UIControlEventValueChanged];
     [self.playSpeedSlider setBackgroundColor:[UIColor whiteColor]];
     
-    self.playSpeedSlider.value = self.audioPlayer.duration;
+    self.playSpeedSlider.value = 1.0;
     self.playSpeedSlider.continuous = YES;
     self.playSpeedSlider.minimumValue = 0.0;
-    self.playSpeedSlider.maximumValue = self.audioPlayer.duration;
+    self.playSpeedSlider.maximumValue = 2.0;
     
     [self.view addSubview:self.playSpeedSlider];
     
