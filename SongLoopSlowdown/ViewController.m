@@ -45,13 +45,7 @@ const CGFloat numberOfVerticalDivisions = 12.0;
 @implementation ViewController
 
 - (NSUInteger)supportedInterfaceOrientations {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        // iPad: Allow all orientations
-        return UIInterfaceOrientationMaskAll;
-    } else {
-        // iPhone: Allow only landscape
-        return UIInterfaceOrientationMaskLandscape;
-    }
+    return UIInterfaceOrientationMaskLandscape;
 }
 
 - (void)viewDidLoad {
