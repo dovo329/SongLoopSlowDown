@@ -26,6 +26,7 @@
 @property (strong, nonatomic) UIImage *plusButtonPressedImage;
 @property (strong, nonatomic) UIImage *minusButtonNormalImage;
 @property (strong, nonatomic) UIImage *minusButtonPressedImage;
+@property (strong, nonatomic) UIImage *backgroundImage;
 
 
 @property (strong, nonatomic) UILabel  *positionLabel;
@@ -68,6 +69,9 @@ const CGFloat speedPrecision = 0.01;
     // Do any additional setup after loading the view, typically from a nib.
     
     [self loadImages];
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:self.backgroundImage];
+    [self.view addSubview:backgroundImageView];
+//    [self.view addSubview:self.backgroundImage];
     [self createTopBar];
     [self createPositionSlider];
     [self createStartLoopbackSlider];
@@ -97,6 +101,8 @@ const CGFloat speedPrecision = 0.01;
     
     self.minusButtonNormalImage = [UIImage imageNamed:@"MinusButtonNormal.png"];
     self.minusButtonPressedImage = [UIImage imageNamed:@"MinusButtonPressed.png"];
+
+    self.backgroundImage = [UIImage imageNamed:@"Background.png"];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -250,7 +256,6 @@ const CGFloat speedPrecision = 0.01;
     
     
     [self.positionSlider addTarget:self action:@selector(positionSliderAction:) forControlEvents:UIControlEventValueChanged];
-    [self.positionSlider setBackgroundColor:[UIColor whiteColor]];
     self.positionSlider.minimumValue = 0.0;
     self.positionSlider.maximumValue = self.audioPlayer.duration;
     //NSLog(@"self.audioPlayer.duration=%0.2f", self.audioPlayer.duration);
@@ -333,7 +338,6 @@ const CGFloat speedPrecision = 0.01;
     [self.startLoopbackSlider setThumbImage:self.sliderImage forState:UIControlStateHighlighted];
     
     [self.startLoopbackSlider addTarget:self action:@selector(startLoopbackSliderAction:) forControlEvents:UIControlEventValueChanged];
-    [self.startLoopbackSlider setBackgroundColor:[UIColor whiteColor]];
     
     self.startLoopbackSlider.value = 0.0;
     self.startLoopbackSlider.continuous = YES;
@@ -452,7 +456,6 @@ const CGFloat speedPrecision = 0.01;
     [self.endLoopbackSlider setThumbImage:self.sliderImage forState:UIControlStateHighlighted];
     
     [self.endLoopbackSlider addTarget:self action:@selector(endLoopbackSliderAction:) forControlEvents:UIControlEventValueChanged];
-    [self.endLoopbackSlider setBackgroundColor:[UIColor whiteColor]];
     
     self.endLoopbackSlider.value = self.audioPlayer.duration;
     self.endLoopbackSlider.continuous = YES;
