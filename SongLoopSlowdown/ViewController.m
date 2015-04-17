@@ -321,7 +321,7 @@ const CGFloat speedPrecision = 0.01;
                      plusButtonHandler:@selector(startLoopbackPlusButtonHandler)
                             minusButton:self.startLoopbackMinusButton
                      minusButtonHandler:@selector(startLoopbackMinusButtonHandler)
-        verticalPositionInScreenDivisions:6.0];
+        verticalPositionInScreenDivisions:5.5];
     
     
     frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
@@ -358,9 +358,9 @@ const CGFloat speedPrecision = 0.01;
 {
     CGRect screenRect = [UIScreen mainScreen].bounds;
     
-    CGFloat plusMinusButtonXOffset = (CGRectGetWidth(screenRect)/(numberOfHorizontalDivisions))/4.0;
+    CGFloat plusMinusButtonXOffset = (CGRectGetWidth(screenRect)/(numberOfHorizontalDivisions))/16.0;
     
-    CGFloat frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
+    CGFloat frameHeight = (CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions))*2.0;
     CGFloat frameWidth = frameHeight;
     CGFloat frameX = CGRectGetMinX(screenRect)+plusMinusButtonXOffset;
     CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(verticalPositionInScreenDivisions/numberOfVerticalDivisions));
@@ -372,7 +372,7 @@ const CGFloat speedPrecision = 0.01;
     [minusButton setImage:self.minusButtonPressedImage forState:UIControlStateHighlighted];
     [self.view addSubview:minusButton];
     
-    frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
+    frameHeight = (CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions))*2.0;
     frameWidth = frameHeight;
     frameX = CGRectGetMinX(screenRect)+CGRectGetWidth(screenRect)*((numberOfHorizontalDivisions-1.0)/numberOfHorizontalDivisions) + plusMinusButtonXOffset;
     frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(verticalPositionInScreenDivisions/numberOfVerticalDivisions));
@@ -469,7 +469,7 @@ const CGFloat speedPrecision = 0.01;
                      plusButtonHandler:@selector(endLoopbackPlusButtonHandler)
                             minusButton:self.endLoopbackMinusButton
                      minusButtonHandler:@selector(endLoopbackMinusButtonHandler)
-        verticalPositionInScreenDivisions:8.0];
+        verticalPositionInScreenDivisions:7.5];
 }
 
 - (IBAction)playSpeedPlusButtonHandler
@@ -534,7 +534,7 @@ const CGFloat speedPrecision = 0.01;
                      plusButtonHandler:@selector(playSpeedPlusButtonHandler)
                             minusButton:self.playSpeedMinusButton
                      minusButtonHandler:@selector(playSpeedMinusButtonHandler)
-            verticalPositionInScreenDivisions:10.0];
+            verticalPositionInScreenDivisions:9.5];
 }
 
 - (void)didReceiveMemoryWarning {
