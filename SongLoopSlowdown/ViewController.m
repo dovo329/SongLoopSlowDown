@@ -15,6 +15,7 @@
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 
 @property (strong, nonatomic) UIButton *pickSongButton;
+@property (strong, nonatomic) UILabel  *songInfoLabel;
 
 @property (strong, nonatomic) UILabel  *positionLabel;
 @property (strong, nonatomic) UISlider *positionSlider;
@@ -90,9 +91,9 @@ const CGFloat speedPrecision = 0.01;
 
 - (void)createButtons {
     CGRect mainRect = [[UIScreen mainScreen] bounds];
-    CGFloat buttonWidth = CGRectGetWidth(mainRect);
+    CGFloat buttonWidth = CGRectGetWidth(mainRect)/4.0;
     CGFloat buttonHeight = CGRectGetHeight(mainRect)/numberOfVerticalDivisions;
-    CGRect buttonRect = CGRectMake(CGRectGetMidX(mainRect)-buttonWidth/2.0, CGRectGetMinY(mainRect)+carrierBarOffset, buttonWidth, buttonHeight);
+    CGRect buttonRect = CGRectMake(CGRectGetMinX(mainRect)+20.0, CGRectGetMinY(mainRect)+carrierBarOffset, buttonWidth, buttonHeight);
     self.pickSongButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.pickSongButton addTarget:self action:@selector(pickSong) forControlEvents:UIControlEventTouchUpInside];
     self.pickSongButton.frame = buttonRect;
@@ -100,6 +101,15 @@ const CGFloat speedPrecision = 0.01;
     [self.pickSongButton setBackgroundColor:[UIColor blueColor]];
     [self.pickSongButton setTitle:@"Pick Song" forState:UIControlStateNormal];
     [self.view addSubview:self.pickSongButton];
+    
+    CGFloat songInfoOriginX = CGRectGetMinX(mainRect)+20.0+buttonWidth+20.0;
+    CGFloat songInfoWidth = CGRectGetWidth(mainRect)*(3.0/4.0);
+    CGFloat songInfoHeight = CGRectGetHeight(mainRect)/numberOfVerticalDivisions;
+    CGRect songInfoRect = CGRectMake(songInfoOriginX, CGRectGetMinY(mainRect)+carrierBarOffset, songInfoWidth, songInfoHeight);
+    self.songInfoLabel = [[UILabel alloc] initWithFrame:songInfoRect];
+    [self.songInfoLabel setText:@"Empty"];
+    [self.songInfoLabel setTextColor:[UIColor blackColor]];
+    [self.view addSubview:self.songInfoLabel];
 }
 
 - (IBAction)pickSong
@@ -122,8 +132,8 @@ const CGFloat speedPrecision = 0.01;
     MPMediaItem *item = [[collection items] objectAtIndex:0];
     NSString *title = [item valueForProperty:MPMediaItemPropertyTitle];
     NSString *artist = [item valueForProperty:MPMediaItemPropertyArtist];
-    NSString *topDisplayTitle = [NSString stringWithFormat:@"Pick Song: %@: %@", title, artist];
-    [self.pickSongButton setTitle:topDisplayTitle forState:UIControlStateNormal];
+    NSString *topDisplayTitle = [NSString stringWithFormat:@"%@: %@", title, artist];
+    [self.songInfoLabel setText:topDisplayTitle];
     
     // get a URL reference to the selected item
     NSURL *url = [item valueForProperty:MPMediaItemPropertyAssetURL];
