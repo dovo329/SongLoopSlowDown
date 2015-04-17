@@ -22,6 +22,11 @@
 @property (strong, nonatomic) UIImage *sliderImage;
 @property (strong, nonatomic) UIImage *pickSongButtonNormalImage;
 @property (strong, nonatomic) UIImage *pickSongButtonPressedImage;
+@property (strong, nonatomic) UIImage *plusButtonNormalImage;
+@property (strong, nonatomic) UIImage *plusButtonPressedImage;
+@property (strong, nonatomic) UIImage *minusButtonNormalImage;
+@property (strong, nonatomic) UIImage *minusButtonPressedImage;
+
 
 @property (strong, nonatomic) UILabel  *positionLabel;
 @property (strong, nonatomic) UISlider *positionSlider;
@@ -81,9 +86,17 @@ const CGFloat speedPrecision = 0.01;
 {
     self.sliderTrackLeftImage = [[UIImage imageNamed:@"LeftTrackSlice.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 0)];
     self.sliderTrackRightImage = [[UIImage imageNamed:@"RightTrackSlice.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 7)];
-    self.sliderImage = [[UIImage imageNamed:@"Slider.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    self.pickSongButtonNormalImage = [[UIImage imageNamed:@"PickSongButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    self.pickSongButtonPressedImage = [[UIImage imageNamed:@"PickSongButtonPressed.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    //self.sliderImage = [[UIImage imageNamed:@"Slider.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    self.sliderImage = [UIImage imageNamed:@"Slider.png"];
+    
+    self.pickSongButtonNormalImage = [UIImage imageNamed:@"PickSongButtonNormal.png"];
+    self.pickSongButtonPressedImage = [UIImage imageNamed:@"PickSongButtonPressed.png"];
+    
+    self.plusButtonNormalImage = [UIImage imageNamed:@"PlusButtonNormal.png"];
+    self.plusButtonPressedImage = [UIImage imageNamed:@"PlusButtonPressed.png"];
+    
+    self.minusButtonNormalImage = [UIImage imageNamed:@"MinusButtonNormal.png"];
+    self.minusButtonPressedImage = [UIImage imageNamed:@"MinusButtonPressed.png"];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -298,6 +311,14 @@ const CGFloat speedPrecision = 0.01;
     [self.startLoopbackLabel setTextColor:[UIColor blackColor]];
     [self.view addSubview:self.startLoopbackLabel];
     
+    
+    [self createPlusMinusButtonsForButton:self.startLoopbackPlusButton
+                     plusButtonHandler:@selector(startLoopbackPlusButtonHandler)
+                            minusButton:self.startLoopbackMinusButton
+                     minusButtonHandler:@selector(startLoopbackMinusButtonHandler)
+        verticalPositionInScreenDivisions:6.0];
+    
+    
     frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
     frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
@@ -321,31 +342,43 @@ const CGFloat speedPrecision = 0.01;
     
     [self.view addSubview:self.startLoopbackSlider];
     
-    frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
-    frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
-    frameX = CGRectGetMinX(screenRect);
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(6.0/numberOfVerticalDivisions));
-    frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
-    self.startLoopbackMinusButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.startLoopbackMinusButton addTarget:self action:@selector(startLoopbackMinusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
-    self.startLoopbackMinusButton.frame = frame;
-    [self.startLoopbackMinusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.startLoopbackMinusButton setBackgroundColor:[UIColor whiteColor]];
-    [self.startLoopbackMinusButton setTitle:@"-" forState:UIControlStateNormal];
-    [self.view addSubview:self.startLoopbackMinusButton];
+
+
+}
+
+- (void)createPlusMinusButtonsForButton:(UIButton *)plusButton
+                     plusButtonHandler:(SEL)plusButtonHandler
+                            minusButton:(UIButton *)minusButton
+                     minusButtonHandler:(SEL)minusButtonHandler
+      verticalPositionInScreenDivisions:(CGFloat)verticalPositionInScreenDivisions
+{
+    CGRect screenRect = [UIScreen mainScreen].bounds;
     
-    frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
+    CGFloat plusMinusButtonXOffset = (CGRectGetWidth(screenRect)/(numberOfHorizontalDivisions))/4.0;
+    
+    CGFloat frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
+    CGFloat frameWidth = frameHeight;
+    CGFloat frameX = CGRectGetMinX(screenRect)+plusMinusButtonXOffset;
+    CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(verticalPositionInScreenDivisions/numberOfVerticalDivisions));
+    CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
+    minusButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [minusButton addTarget:self action:minusButtonHandler forControlEvents:UIControlEventTouchUpInside];
+    minusButton.frame = frame;
+    [minusButton setImage:self.minusButtonNormalImage forState:UIControlStateNormal];
+    [minusButton setImage:self.minusButtonPressedImage forState:UIControlStateHighlighted];
+    [self.view addSubview:minusButton];
+    
     frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
-    frameX = CGRectGetMinX(screenRect)+CGRectGetWidth(screenRect)*((numberOfHorizontalDivisions-1.0)/numberOfHorizontalDivisions);
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(6.0/numberOfVerticalDivisions));
+    frameWidth = frameHeight;
+    frameX = CGRectGetMinX(screenRect)+CGRectGetWidth(screenRect)*((numberOfHorizontalDivisions-1.0)/numberOfHorizontalDivisions) + plusMinusButtonXOffset;
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(verticalPositionInScreenDivisions/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
-    self.startLoopbackPlusButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.startLoopbackPlusButton addTarget:self action:@selector(startLoopbackPlusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
-    self.startLoopbackPlusButton.frame = frame;
-    [self.startLoopbackPlusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.startLoopbackPlusButton setBackgroundColor:[UIColor whiteColor]];
-    [self.startLoopbackPlusButton setTitle:@"+" forState:UIControlStateNormal];
-    [self.view addSubview:self.startLoopbackPlusButton];
+    plusButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [plusButton addTarget:self action:plusButtonHandler forControlEvents:UIControlEventTouchUpInside];
+    plusButton.frame = frame;
+    [plusButton setImage:self.plusButtonNormalImage forState:UIControlStateNormal];
+    [plusButton setImage:self.plusButtonPressedImage forState:UIControlStateHighlighted];
+    [self.view addSubview:plusButton];
 }
 
 - (void)clipLoopbackSliders
@@ -428,31 +461,12 @@ const CGFloat speedPrecision = 0.01;
     
     [self.view addSubview:self.endLoopbackSlider];
     
-    frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
-    frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
-    frameX = CGRectGetMinX(screenRect);
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(8.0/numberOfVerticalDivisions));
-    frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
-    self.endLoopbackMinusButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.endLoopbackMinusButton addTarget:self action:@selector(endLoopbackMinusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
-    self.endLoopbackMinusButton.frame = frame;
-    [self.endLoopbackMinusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.endLoopbackMinusButton setBackgroundColor:[UIColor whiteColor]];
-    [self.endLoopbackMinusButton setTitle:@"-" forState:UIControlStateNormal];
-    [self.view addSubview:self.endLoopbackMinusButton];
     
-    frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
-    frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
-    frameX = CGRectGetMinX(screenRect)+CGRectGetWidth(screenRect)*((numberOfHorizontalDivisions-1.0)/numberOfHorizontalDivisions);
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(8.0/numberOfVerticalDivisions));
-    frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
-    self.endLoopbackPlusButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.endLoopbackPlusButton addTarget:self action:@selector(endLoopbackPlusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
-    self.endLoopbackPlusButton.frame = frame;
-    [self.endLoopbackPlusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.endLoopbackPlusButton setBackgroundColor:[UIColor whiteColor]];
-    [self.endLoopbackPlusButton setTitle:@"+" forState:UIControlStateNormal];
-    [self.view addSubview:self.endLoopbackPlusButton];
+    [self createPlusMinusButtonsForButton:self.endLoopbackPlusButton
+                     plusButtonHandler:@selector(endLoopbackPlusButtonHandler)
+                            minusButton:self.endLoopbackMinusButton
+                     minusButtonHandler:@selector(endLoopbackMinusButtonHandler)
+        verticalPositionInScreenDivisions:8.0];
 }
 
 - (IBAction)playSpeedPlusButtonHandler
@@ -499,9 +513,12 @@ const CGFloat speedPrecision = 0.01;
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.playSpeedSlider = [[UISlider alloc] initWithFrame:frame];
+    [self.playSpeedSlider setMinimumTrackImage:self.sliderTrackLeftImage forState:UIControlStateNormal ];
+    [self.playSpeedSlider setMaximumTrackImage:self.sliderTrackRightImage forState:UIControlStateNormal];
+    [self.playSpeedSlider setThumbImage:self.sliderImage forState:UIControlStateNormal];
+    [self.playSpeedSlider setThumbImage:self.sliderImage forState:UIControlStateHighlighted];
     
     [self.playSpeedSlider addTarget:self action:@selector(playSpeedSliderAction:) forControlEvents:UIControlEventValueChanged];
-    [self.playSpeedSlider setBackgroundColor:[UIColor whiteColor]];
     
     self.playSpeedSlider.value = 1.0;
     self.playSpeedSlider.continuous = YES;
@@ -510,31 +527,11 @@ const CGFloat speedPrecision = 0.01;
     
     [self.view addSubview:self.playSpeedSlider];
     
-    frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
-    frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
-    frameX = CGRectGetMinX(screenRect);
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(10.0/numberOfVerticalDivisions));
-    frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
-    self.playSpeedMinusButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.playSpeedMinusButton addTarget:self action:@selector(playSpeedMinusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
-    self.playSpeedMinusButton.frame = frame;
-    [self.playSpeedMinusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.playSpeedMinusButton setBackgroundColor:[UIColor whiteColor]];
-    [self.playSpeedMinusButton setTitle:@"-" forState:UIControlStateNormal];
-    [self.view addSubview:self.playSpeedMinusButton];
-    
-    frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
-    frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
-    frameX = CGRectGetMinX(screenRect)+CGRectGetWidth(screenRect)*((numberOfHorizontalDivisions-1.0)/numberOfHorizontalDivisions);
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(10.0/numberOfVerticalDivisions));
-    frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
-    self.playSpeedPlusButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.playSpeedPlusButton addTarget:self action:@selector(playSpeedPlusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
-    self.playSpeedPlusButton.frame = frame;
-    [self.playSpeedPlusButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.playSpeedPlusButton setBackgroundColor:[UIColor whiteColor]];
-    [self.playSpeedPlusButton setTitle:@"+" forState:UIControlStateNormal];
-    [self.view addSubview:self.playSpeedPlusButton];
+ [self createPlusMinusButtonsForButton:self.playSpeedPlusButton
+                     plusButtonHandler:@selector(playSpeedPlusButtonHandler)
+                            minusButton:self.playSpeedMinusButton
+                     minusButtonHandler:@selector(playSpeedMinusButtonHandler)
+            verticalPositionInScreenDivisions:10.0];
 }
 
 - (void)didReceiveMemoryWarning {
