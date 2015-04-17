@@ -103,10 +103,12 @@ const CGFloat speedPrecision = 0.01;
     [self.view addSubview:self.pickSongButton];
     
     CGFloat songInfoOriginX = CGRectGetMinX(mainRect)+20.0+buttonWidth+20.0;
-    CGFloat songInfoWidth = CGRectGetWidth(mainRect)*(3.0/4.0);
+    CGFloat songInfoWidth = CGRectGetWidth(mainRect)*(5.0/8.0);
     CGFloat songInfoHeight = CGRectGetHeight(mainRect)*(2.0/numberOfVerticalDivisions);
     CGRect songInfoRect = CGRectMake(songInfoOriginX, CGRectGetMinY(mainRect)+carrierBarOffset, songInfoWidth, songInfoHeight);
     self.songInfoLabel = [[UILabel alloc] initWithFrame:songInfoRect];
+    self.songInfoLabel.numberOfLines = 0;
+    //self.songInfoLabel.backgroundColor = [UIColor redColor];
     [self.songInfoLabel setText:@"Empty"];
     [self.songInfoLabel setTextColor:[UIColor blackColor]];
     [self.view addSubview:self.songInfoLabel];
