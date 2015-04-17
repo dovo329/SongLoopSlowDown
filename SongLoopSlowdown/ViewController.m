@@ -56,7 +56,7 @@ const CGFloat speedPrecision = 0.01;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    [self createButtons];
+    [self createTopBar];
     [self createPositionSlider];
     [self createStartLoopbackSlider];
     [self createEndLoopbackSlider];
@@ -89,10 +89,10 @@ const CGFloat speedPrecision = 0.01;
     self.playSpeedSlider.value = 1.0;
 }
 
-- (void)createButtons {
+- (void)createTopBar {
     CGRect mainRect = [[UIScreen mainScreen] bounds];
     CGFloat buttonWidth = CGRectGetWidth(mainRect)/4.0;
-    CGFloat buttonHeight = CGRectGetHeight(mainRect)/numberOfVerticalDivisions;
+    CGFloat buttonHeight = CGRectGetHeight(mainRect)*(2.0/numberOfVerticalDivisions);
     CGRect buttonRect = CGRectMake(CGRectGetMinX(mainRect)+20.0, CGRectGetMinY(mainRect)+carrierBarOffset, buttonWidth, buttonHeight);
     self.pickSongButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.pickSongButton addTarget:self action:@selector(pickSong) forControlEvents:UIControlEventTouchUpInside];
@@ -104,7 +104,7 @@ const CGFloat speedPrecision = 0.01;
     
     CGFloat songInfoOriginX = CGRectGetMinX(mainRect)+20.0+buttonWidth+20.0;
     CGFloat songInfoWidth = CGRectGetWidth(mainRect)*(3.0/4.0);
-    CGFloat songInfoHeight = CGRectGetHeight(mainRect)/numberOfVerticalDivisions;
+    CGFloat songInfoHeight = CGRectGetHeight(mainRect)*(2.0/numberOfVerticalDivisions);
     CGRect songInfoRect = CGRectMake(songInfoOriginX, CGRectGetMinY(mainRect)+carrierBarOffset, songInfoWidth, songInfoHeight);
     self.songInfoLabel = [[UILabel alloc] initWithFrame:songInfoRect];
     [self.songInfoLabel setText:@"Empty"];
@@ -194,7 +194,7 @@ const CGFloat speedPrecision = 0.01;
     CGFloat frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
     CGFloat frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     CGFloat frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
-    CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(2.0/numberOfVerticalDivisions));
+    CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(3.0/numberOfVerticalDivisions));
     CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.positionLabel = [[UILabel alloc] initWithFrame:frame];
@@ -205,7 +205,7 @@ const CGFloat speedPrecision = 0.01;
     frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
     frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(3.0/numberOfVerticalDivisions));
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(4.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.positionSlider = [[UISlider alloc] initWithFrame:frame];
@@ -264,7 +264,7 @@ const CGFloat speedPrecision = 0.01;
     CGFloat frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
     CGFloat frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     CGFloat frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
-    CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(4.0/numberOfVerticalDivisions));
+    CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(5.0/numberOfVerticalDivisions));
     CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.startLoopbackLabel = [[UILabel alloc] initWithFrame:frame];
@@ -275,7 +275,7 @@ const CGFloat speedPrecision = 0.01;
     frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
     frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(5.0/numberOfVerticalDivisions));
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(6.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.startLoopbackSlider = [[UISlider alloc] initWithFrame:frame];
@@ -298,7 +298,7 @@ const CGFloat speedPrecision = 0.01;
     frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
     frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     frameX = CGRectGetMinX(screenRect);
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(5.0/numberOfVerticalDivisions));
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(6.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     self.startLoopbackMinusButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.startLoopbackMinusButton addTarget:self action:@selector(startLoopbackMinusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
@@ -311,7 +311,7 @@ const CGFloat speedPrecision = 0.01;
     frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
     frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     frameX = CGRectGetMinX(screenRect)+CGRectGetWidth(screenRect)*((numberOfHorizontalDivisions-1.0)/numberOfHorizontalDivisions);
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(5.0/numberOfVerticalDivisions));
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(6.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     self.startLoopbackPlusButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.startLoopbackPlusButton addTarget:self action:@selector(startLoopbackPlusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
@@ -372,7 +372,7 @@ const CGFloat speedPrecision = 0.01;
     CGFloat frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
     CGFloat frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     CGFloat frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
-    CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(6.0/numberOfVerticalDivisions));
+    CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(7.0/numberOfVerticalDivisions));
     CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.endLoopbackLabel = [[UILabel alloc] initWithFrame:frame];
@@ -383,7 +383,7 @@ const CGFloat speedPrecision = 0.01;
     frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
     frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(7.0/numberOfVerticalDivisions));
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(8.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.endLoopbackSlider = [[UISlider alloc] initWithFrame:frame];
@@ -401,7 +401,7 @@ const CGFloat speedPrecision = 0.01;
     frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
     frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     frameX = CGRectGetMinX(screenRect);
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(7.0/numberOfVerticalDivisions));
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(8.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     self.endLoopbackMinusButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.endLoopbackMinusButton addTarget:self action:@selector(endLoopbackMinusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
@@ -414,7 +414,7 @@ const CGFloat speedPrecision = 0.01;
     frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
     frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     frameX = CGRectGetMinX(screenRect)+CGRectGetWidth(screenRect)*((numberOfHorizontalDivisions-1.0)/numberOfHorizontalDivisions);
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(7.0/numberOfVerticalDivisions));
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(8.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     self.endLoopbackPlusButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.endLoopbackPlusButton addTarget:self action:@selector(endLoopbackPlusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
@@ -454,7 +454,7 @@ const CGFloat speedPrecision = 0.01;
     CGFloat frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
     CGFloat frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     CGFloat frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
-    CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(8.0/numberOfVerticalDivisions));
+    CGFloat frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(9.0/numberOfVerticalDivisions));
     CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.playSpeedLabel = [[UILabel alloc] initWithFrame:frame];
@@ -465,7 +465,7 @@ const CGFloat speedPrecision = 0.01;
     frameWidth = CGRectGetWidth(screenRect)*(6.0/numberOfHorizontalDivisions);
     frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     frameX = CGRectGetMinX(screenRect) + (CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions));
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(9.0/numberOfVerticalDivisions));
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(10.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.playSpeedSlider = [[UISlider alloc] initWithFrame:frame];
@@ -483,7 +483,7 @@ const CGFloat speedPrecision = 0.01;
     frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
     frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     frameX = CGRectGetMinX(screenRect);
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(9.0/numberOfVerticalDivisions));
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(10.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     self.playSpeedMinusButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.playSpeedMinusButton addTarget:self action:@selector(playSpeedMinusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
@@ -496,7 +496,7 @@ const CGFloat speedPrecision = 0.01;
     frameWidth = CGRectGetWidth(screenRect)*(1.0/numberOfHorizontalDivisions);
     frameHeight = CGRectGetHeight(screenRect)*(1.0/numberOfVerticalDivisions);
     frameX = CGRectGetMinX(screenRect)+CGRectGetWidth(screenRect)*((numberOfHorizontalDivisions-1.0)/numberOfHorizontalDivisions);
-    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(9.0/numberOfVerticalDivisions));
+    frameY = CGRectGetMinY(screenRect) + (CGRectGetHeight(screenRect)*(10.0/numberOfVerticalDivisions));
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     self.playSpeedPlusButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.playSpeedPlusButton addTarget:self action:@selector(playSpeedPlusButtonHandler) forControlEvents:UIControlEventTouchUpInside];
@@ -510,6 +510,7 @@ const CGFloat speedPrecision = 0.01;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    NSLog(@"got memory warning.  Oh no!");
 }
 
 @end
