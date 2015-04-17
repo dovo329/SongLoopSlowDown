@@ -70,6 +70,7 @@ const CGFloat speedPrecision = 0.01;
     
     [self loadImages];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:self.backgroundImage];
+    backgroundImageView.frame = [[UIScreen mainScreen] bounds];
     [self.view addSubview:backgroundImageView];
 //    [self.view addSubview:self.backgroundImage];
     [self createTopBar];
