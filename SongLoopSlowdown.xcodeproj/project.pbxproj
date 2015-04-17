@@ -18,6 +18,8 @@
 		A5629B5E1AE042A400BE9CC6 /* SongLoopSlowdownTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5629B5D1AE042A400BE9CC6 /* SongLoopSlowdownTests.m */; };
 		A5629B681AE0507200BE9CC6 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5629B671AE0507200BE9CC6 /* MediaPlayer.framework */; };
 		A5629B6A1AE0507C00BE9CC6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5629B691AE0507C00BE9CC6 /* AVFoundation.framework */; };
+		A5E5ECEC1AE18D8700198D59 /* PickSongButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = A5E5ECEA1AE18D8700198D59 /* PickSongButtonNormal.png */; };
+		A5E5ECED1AE18D8700198D59 /* PickSongButtonPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = A5E5ECEB1AE18D8700198D59 /* PickSongButtonPressed.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,8 @@
 		A5629B5D1AE042A400BE9CC6 /* SongLoopSlowdownTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SongLoopSlowdownTests.m; sourceTree = "<group>"; };
 		A5629B671AE0507200BE9CC6 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		A5629B691AE0507C00BE9CC6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		A5E5ECEA1AE18D8700198D59 /* PickSongButtonNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PickSongButtonNormal.png; sourceTree = "<group>"; };
+		A5E5ECEB1AE18D8700198D59 /* PickSongButtonPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PickSongButtonPressed.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +96,8 @@
 		A5629B401AE042A400BE9CC6 /* SongLoopSlowdown */ = {
 			isa = PBXGroup;
 			children = (
+				A5E5ECEA1AE18D8700198D59 /* PickSongButtonNormal.png */,
+				A5E5ECEB1AE18D8700198D59 /* PickSongButtonPressed.png */,
 				A5629B451AE042A400BE9CC6 /* AppDelegate.h */,
 				A5629B461AE042A400BE9CC6 /* AppDelegate.m */,
 				A5629B481AE042A400BE9CC6 /* ViewController.h */,
@@ -221,9 +227,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5E5ECEC1AE18D8700198D59 /* PickSongButtonNormal.png in Resources */,
 				A51EC6951AE180270011792A /* LeftTrackSlice.png in Resources */,
 				A51EC6961AE180270011792A /* RightTrackSlice.png in Resources */,
 				A5629B521AE042A400BE9CC6 /* LaunchScreen.xib in Resources */,
+				A5E5ECED1AE18D8700198D59 /* PickSongButtonPressed.png in Resources */,
 				A51EC6971AE180270011792A /* Slider.png in Resources */,
 				A5629B4F1AE042A400BE9CC6 /* Images.xcassets in Resources */,
 			);

@@ -20,6 +20,8 @@
 @property (strong, nonatomic) UIImage *sliderTrackLeftImage;
 @property (strong, nonatomic) UIImage *sliderTrackRightImage;
 @property (strong, nonatomic) UIImage *sliderImage;
+@property (strong, nonatomic) UIImage *pickSongButtonNormalImage;
+@property (strong, nonatomic) UIImage *pickSongButtonPressedImage;
 
 @property (strong, nonatomic) UILabel  *positionLabel;
 @property (strong, nonatomic) UISlider *positionSlider;
@@ -80,6 +82,8 @@ const CGFloat speedPrecision = 0.01;
     self.sliderTrackLeftImage = [[UIImage imageNamed:@"LeftTrackSlice.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 0)];
     self.sliderTrackRightImage = [[UIImage imageNamed:@"RightTrackSlice.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 7)];
     self.sliderImage = [[UIImage imageNamed:@"Slider.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    self.pickSongButtonNormalImage = [[UIImage imageNamed:@"PickSongButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    self.pickSongButtonPressedImage = [[UIImage imageNamed:@"PickSongButtonPressed.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -109,9 +113,11 @@ const CGFloat speedPrecision = 0.01;
     self.pickSongButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.pickSongButton addTarget:self action:@selector(pickSong) forControlEvents:UIControlEventTouchUpInside];
     self.pickSongButton.frame = buttonRect;
-    [self.pickSongButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.pickSongButton setBackgroundColor:[UIColor blueColor]];
-    [self.pickSongButton setTitle:@"Pick Song" forState:UIControlStateNormal];
+    //[self.pickSongButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.pickSongButton setImage:self.pickSongButtonNormalImage forState:UIControlStateNormal];
+    [self.pickSongButton setImage:self.pickSongButtonPressedImage forState:UIControlStateHighlighted];
+    //[self.pickSongButton setBackgroundColor:[UIColor blueColor]];
+    //[self.pickSongButton setTitle:@"Pick Song" forState:UIControlStateNormal];
     [self.view addSubview:self.pickSongButton];
     
     CGFloat songInfoOriginX = CGRectGetMinX(mainRect)+20.0+buttonWidth+20.0;
