@@ -148,17 +148,24 @@ const CGFloat speedPrecision = 0.01;
 - (void)updatePositionTimerHandler
 {
     //NSLog(@"update currentTime=%0.2f duration=%0.2f", self.audioPlayer.currentTime, self.audioPlayer.duration);
-    self.positionSlider.value = self.audioPlayer.currentTime;
+    self.positionSlider.value = [self roundToTenths:self.audioPlayer.currentTime];
     if (self.positionSlider.value > self.endLoopbackSlider.value) {
-        self.positionSlider.value = self.startLoopbackSlider.value;
-        self.audioPlayer.currentTime = self.startLoopbackSlider.value;
+        self.positionSlider.value = [self roundToTenths:self.startLoopbackSlider.value];
+        self.audioPlayer.currentTime = self.positionSlider.value;
     }
     [self updateSliderLabels];
+}
+
+-(double)roundToTenths:(double)arg
+{
+    return (round(arg*10.0)/10.0);
 }
 
 -(void)positionSliderAction:(id)sender
 {
     UISlider *slider = (UISlider*)sender;
+    self.positionSlider.value = [self roundToTenths:slider.value];
+    
     if (self.positionSlider.value > self.endLoopbackSlider.value) {
         self.endLoopbackSlider.value = self.positionSlider.value;
     }
@@ -168,7 +175,7 @@ const CGFloat speedPrecision = 0.01;
     }
     
     [self updateSliderLabels];
-    self.audioPlayer.currentTime = slider.value;
+    self.audioPlayer.currentTime = self.positionSlider.value;
 }
 
 -(IBAction)createPositionSlider
@@ -181,7 +188,7 @@ const CGFloat speedPrecision = 0.01;
     CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.positionLabel = [[UILabel alloc] initWithFrame:frame];
-    [self.positionLabel setText:[NSString stringWithFormat:@"Position: %0.2f", self.positionSlider.value]];
+    [self updateSliderLabels];
     [self.positionLabel setTextColor:[UIColor blackColor]];
     [self.view addSubview:self.positionLabel];
     
@@ -233,6 +240,8 @@ const CGFloat speedPrecision = 0.01;
 
 -(void)startLoopbackSliderAction:(id)sender
 {
+    UISlider *slider = (UISlider *)sender;
+    self.startLoopbackSlider.value = [self roundToTenths:slider.value];
     [self clipLoopbackSliders];
     [self clipStartAndPositionSliders];
     
@@ -339,6 +348,8 @@ const CGFloat speedPrecision = 0.01;
 
 -(void)endLoopbackSliderAction:(id)sender
 {
+    UISlider *slider = (UISlider *)sender;
+    self.endLoopbackSlider.value = [self roundToTenths:slider.value];
     [self clipLoopbackSliders];
     [self clipEndAndPositionSliders];
     //NSLog(@"end loopback slider value = %0.2f", slider.value);
@@ -421,9 +432,10 @@ const CGFloat speedPrecision = 0.01;
 -(void)playSpeedSliderAction:(id)sender
 {
     UISlider *slider = (UISlider*)sender;
+    self.playSpeedSlider.value = round(slider.value*100.0)/100.0;
     //NSLog(@"end loopback slider value = %0.2f", slider.value);
     [self updateSliderLabels];
-    self.audioPlayer.rate = slider.value;
+    self.audioPlayer.rate = self.playSpeedSlider.value; // round to nearest percent
 }
 
 -(IBAction)createPlaySpeedSlider
