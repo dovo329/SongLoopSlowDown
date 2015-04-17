@@ -147,7 +147,7 @@ const CGFloat speedPrecision = 0.01;
     self.songInfoLabel = [[UILabel alloc] initWithFrame:songInfoRect];
     self.songInfoLabel.numberOfLines = 0;
     //self.songInfoLabel.backgroundColor = [UIColor redColor];
-    [self.songInfoLabel setText:@"Please Pick A Song"];
+    [self.songInfoLabel setText:@"Please pick a Song"];
     [self.songInfoLabel setTextColor:[UIColor blackColor]];
     [self.view addSubview:self.songInfoLabel];
 }
