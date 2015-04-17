@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A51EC6951AE180270011792A /* LeftTrackSlice.png in Resources */ = {isa = PBXBuildFile; fileRef = A51EC6921AE180270011792A /* LeftTrackSlice.png */; };
+		A51EC6961AE180270011792A /* RightTrackSlice.png in Resources */ = {isa = PBXBuildFile; fileRef = A51EC6931AE180270011792A /* RightTrackSlice.png */; };
+		A51EC6971AE180270011792A /* Slider.png in Resources */ = {isa = PBXBuildFile; fileRef = A51EC6941AE180270011792A /* Slider.png */; };
 		A5629B441AE042A400BE9CC6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A5629B431AE042A400BE9CC6 /* main.m */; };
 		A5629B471AE042A400BE9CC6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A5629B461AE042A400BE9CC6 /* AppDelegate.m */; };
 		A5629B4A1AE042A400BE9CC6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5629B491AE042A400BE9CC6 /* ViewController.m */; };
@@ -28,6 +31,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A51EC6921AE180270011792A /* LeftTrackSlice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LeftTrackSlice.png; sourceTree = "<group>"; };
+		A51EC6931AE180270011792A /* RightTrackSlice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RightTrackSlice.png; sourceTree = "<group>"; };
+		A51EC6941AE180270011792A /* Slider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Slider.png; sourceTree = "<group>"; };
 		A5629B3E1AE042A400BE9CC6 /* SongLoopSlowdown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SongLoopSlowdown.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5629B421AE042A400BE9CC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A5629B431AE042A400BE9CC6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -91,6 +97,9 @@
 				A5629B481AE042A400BE9CC6 /* ViewController.h */,
 				A5629B491AE042A400BE9CC6 /* ViewController.m */,
 				A5629B4E1AE042A400BE9CC6 /* Images.xcassets */,
+				A51EC6921AE180270011792A /* LeftTrackSlice.png */,
+				A51EC6931AE180270011792A /* RightTrackSlice.png */,
+				A51EC6941AE180270011792A /* Slider.png */,
 				A5629B501AE042A400BE9CC6 /* LaunchScreen.xib */,
 				A5629B411AE042A400BE9CC6 /* Supporting Files */,
 			);
@@ -212,7 +221,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A51EC6951AE180270011792A /* LeftTrackSlice.png in Resources */,
+				A51EC6961AE180270011792A /* RightTrackSlice.png in Resources */,
 				A5629B521AE042A400BE9CC6 /* LaunchScreen.xib in Resources */,
+				A51EC6971AE180270011792A /* Slider.png in Resources */,
 				A5629B4F1AE042A400BE9CC6 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

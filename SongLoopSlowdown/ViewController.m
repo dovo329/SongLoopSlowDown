@@ -17,6 +17,10 @@
 @property (strong, nonatomic) UIButton *pickSongButton;
 @property (strong, nonatomic) UILabel  *songInfoLabel;
 
+@property (strong, nonatomic) UIImage *sliderTrackLeftImage;
+@property (strong, nonatomic) UIImage *sliderTrackRightImage;
+@property (strong, nonatomic) UIImage *sliderImage;
+
 @property (strong, nonatomic) UILabel  *positionLabel;
 @property (strong, nonatomic) UISlider *positionSlider;
 
@@ -56,6 +60,7 @@ const CGFloat speedPrecision = 0.01;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    [self loadImages];
     [self createTopBar];
     [self createPositionSlider];
     [self createStartLoopbackSlider];
@@ -68,6 +73,13 @@ const CGFloat speedPrecision = 0.01;
                                    selector:@selector(updatePositionTimerHandler)
                                    userInfo:nil
                                     repeats:YES];
+}
+
+- (void)loadImages
+{
+    self.sliderTrackLeftImage = [[UIImage imageNamed:@"LeftTrackSlice.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 0)];
+    self.sliderTrackRightImage = [[UIImage imageNamed:@"RightTrackSlice.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 7)];
+    self.sliderImage = [[UIImage imageNamed:@"Slider.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -211,6 +223,12 @@ const CGFloat speedPrecision = 0.01;
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.positionSlider = [[UISlider alloc] initWithFrame:frame];
+    [self.positionSlider setMinimumTrackImage:self.sliderTrackLeftImage forState:UIControlStateNormal ];
+    [self.positionSlider setMaximumTrackImage:self.sliderTrackRightImage forState:UIControlStateNormal];
+    [self.positionSlider setThumbImage:self.sliderImage forState:UIControlStateNormal];
+    [self.positionSlider setThumbImage:self.sliderImage forState:UIControlStateHighlighted];
+    
+    
     
     [self.positionSlider addTarget:self action:@selector(positionSliderAction:) forControlEvents:UIControlEventValueChanged];
     [self.positionSlider setBackgroundColor:[UIColor whiteColor]];
@@ -282,10 +300,10 @@ const CGFloat speedPrecision = 0.01;
     
     self.startLoopbackSlider = [[UISlider alloc] initWithFrame:frame];
     
-    /*[self.startLoopbackSlider setMinimumTrackImage:[UIImage imageNamed:@"slider_minimum.png"] forState:UIControlStateNormal];
-    [self.startLoopbackSlider setMaximumTrackImage:[UIImage imageNamed:@"slider_maximum.png"] forState:UIControlStateNormal];
-    [self.startLoopbackSlider setThumbImage:[UIImage imageNamed:@"slider_tab.png"] forState:UIControlStateNormal];
-    [self.startLoopbackSlider setThumbImage:[UIImage imageNamed:@"slider_tab.png"] forState:UIControlStateHighlighted];*/
+    [self.startLoopbackSlider setMinimumTrackImage:self.sliderTrackLeftImage forState:UIControlStateNormal ];
+    [self.startLoopbackSlider setMaximumTrackImage:self.sliderTrackRightImage forState:UIControlStateNormal];
+    [self.startLoopbackSlider setThumbImage:self.sliderImage forState:UIControlStateNormal];
+    [self.startLoopbackSlider setThumbImage:self.sliderImage forState:UIControlStateHighlighted];
     
     [self.startLoopbackSlider addTarget:self action:@selector(startLoopbackSliderAction:) forControlEvents:UIControlEventValueChanged];
     [self.startLoopbackSlider setBackgroundColor:[UIColor whiteColor]];
@@ -389,6 +407,10 @@ const CGFloat speedPrecision = 0.01;
     frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.endLoopbackSlider = [[UISlider alloc] initWithFrame:frame];
+    [self.endLoopbackSlider setMinimumTrackImage:self.sliderTrackLeftImage forState:UIControlStateNormal ];
+    [self.endLoopbackSlider setMaximumTrackImage:self.sliderTrackRightImage forState:UIControlStateNormal];
+    [self.endLoopbackSlider setThumbImage:self.sliderImage forState:UIControlStateNormal];
+    [self.endLoopbackSlider setThumbImage:self.sliderImage forState:UIControlStateHighlighted];
     
     [self.endLoopbackSlider addTarget:self action:@selector(endLoopbackSliderAction:) forControlEvents:UIControlEventValueChanged];
     [self.endLoopbackSlider setBackgroundColor:[UIColor whiteColor]];
