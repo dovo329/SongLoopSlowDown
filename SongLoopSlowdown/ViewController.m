@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface ViewController ()
+@interface ViewController () <MPMediaPickerControllerDelegate>
 
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 

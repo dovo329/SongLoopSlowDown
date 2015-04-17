@@ -25,6 +25,7 @@
 		A5E5ECF41AE1970300198D59 /* PlusButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = A5E5ECF01AE1970300198D59 /* PlusButtonNormal.png */; };
 		A5E5ECF51AE1970300198D59 /* PlusButtonPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = A5E5ECF11AE1970300198D59 /* PlusButtonPressed.png */; };
 		A5E5ECF71AE1AFE100198D59 /* Background.png in Resources */ = {isa = PBXBuildFile; fileRef = A5E5ECF61AE1AFE100198D59 /* Background.png */; };
+		A5E5ECF91AE1B98200198D59 /* LaunchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = A5E5ECF81AE1B98200198D59 /* LaunchScreen.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		A5E5ECF01AE1970300198D59 /* PlusButtonNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlusButtonNormal.png; sourceTree = "<group>"; };
 		A5E5ECF11AE1970300198D59 /* PlusButtonPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlusButtonPressed.png; sourceTree = "<group>"; };
 		A5E5ECF61AE1AFE100198D59 /* Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Background.png; sourceTree = "<group>"; };
+		A5E5ECF81AE1B98200198D59 /* LaunchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LaunchScreen.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 		A5629B401AE042A400BE9CC6 /* SongLoopSlowdown */ = {
 			isa = PBXGroup;
 			children = (
+				A5E5ECF81AE1B98200198D59 /* LaunchScreen.png */,
 				A5E5ECF61AE1AFE100198D59 /* Background.png */,
 				A5E5ECEE1AE1970300198D59 /* MinusButtonNormal.png */,
 				A5E5ECEF1AE1970300198D59 /* MinusButtonPressed.png */,
@@ -248,6 +251,7 @@
 				A5E5ECF31AE1970300198D59 /* MinusButtonPressed.png in Resources */,
 				A51EC6951AE180270011792A /* LeftTrackSlice.png in Resources */,
 				A51EC6961AE180270011792A /* RightTrackSlice.png in Resources */,
+				A5E5ECF91AE1B98200198D59 /* LaunchScreen.png in Resources */,
 				A5629B521AE042A400BE9CC6 /* LaunchScreen.xib in Resources */,
 				A5E5ECED1AE18D8700198D59 /* PickSongButtonPressed.png in Resources */,
 				A5E5ECF51AE1970300198D59 /* PlusButtonPressed.png in Resources */,
@@ -394,7 +398,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SongLoopSlowdown/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -405,7 +409,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = SongLoopSlowdown/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
