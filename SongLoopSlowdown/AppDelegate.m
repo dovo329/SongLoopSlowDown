@@ -22,6 +22,18 @@
 
     self.window.backgroundColor = [UIColor whiteColor];
     
+/*  
+    // list available fonts
+    for (NSString* family in [UIFont familyNames])
+    {
+        NSLog(@"%@", family);
+        
+        for (NSString* name in [UIFont fontNamesForFamilyName: family])
+        {
+            NSLog(@"  %@", name);
+        }
+    }*/
+    
     ViewController *vc = [[ViewController alloc] init];
     [self.window setRootViewController:vc];
     
@@ -29,6 +41,8 @@
     [self.window makeKeyAndVisible];
     return YES;
 }
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

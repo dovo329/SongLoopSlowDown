@@ -57,6 +57,7 @@ const CGFloat numberOfVerticalDivisions = 12.0;
 
 const CGFloat loopPrecision = 0.1;
 const CGFloat speedPrecision = 0.01;
+const CGFloat kGlobalFontSize = 24.0;
 
 @implementation ViewController
 
@@ -146,6 +147,7 @@ const CGFloat speedPrecision = 0.01;
     CGRect songInfoRect = CGRectMake(songInfoOriginX, CGRectGetMinY(mainRect)+carrierBarOffset, songInfoWidth, songInfoHeight);
     self.songInfoLabel = [[UILabel alloc] initWithFrame:songInfoRect];
     self.songInfoLabel.numberOfLines = 0;
+    [self.songInfoLabel setFont:[UIFont fontWithName:@"Open24DisplaySt" size:kGlobalFontSize]];
     //self.songInfoLabel.backgroundColor = [UIColor redColor];
     [self.songInfoLabel setText:@"Please pick a Song"];
     [self.songInfoLabel setTextColor:[UIColor blackColor]];
@@ -243,6 +245,7 @@ const CGFloat speedPrecision = 0.01;
     CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.positionLabel = [[UILabel alloc] initWithFrame:frame];
+    [self.positionLabel setFont:[UIFont fontWithName:@"Open24DisplaySt" size:kGlobalFontSize]];
     [self updateSliderLabels];
     [self.positionLabel setTextColor:[UIColor blackColor]];
     [self.view addSubview:self.positionLabel];
@@ -318,6 +321,7 @@ const CGFloat speedPrecision = 0.01;
     CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.startLoopbackLabel = [[UILabel alloc] initWithFrame:frame];
+    [self.startLoopbackLabel setFont:[UIFont fontWithName:@"Open24DisplaySt" size:kGlobalFontSize]];
     [self updateSliderLabels];
     [self.startLoopbackLabel setTextColor:[UIColor blackColor]];
     [self.view addSubview:self.startLoopbackLabel];
@@ -445,6 +449,7 @@ const CGFloat speedPrecision = 0.01;
     CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.endLoopbackLabel = [[UILabel alloc] initWithFrame:frame];
+    [self.endLoopbackLabel setFont:[UIFont fontWithName:@"Open24DisplaySt" size:kGlobalFontSize]];
     [self updateSliderLabels];
     [self.endLoopbackLabel setTextColor:[UIColor blackColor]];
     [self.view addSubview:self.endLoopbackLabel];
@@ -511,6 +516,7 @@ const CGFloat speedPrecision = 0.01;
     CGRect frame = CGRectMake(frameX, frameY, frameWidth, frameHeight);
     
     self.playSpeedLabel = [[UILabel alloc] initWithFrame:frame];
+    [self.playSpeedLabel setFont:[UIFont fontWithName:@"Open24DisplaySt" size:kGlobalFontSize]];
     [self updateSliderLabels];
     [self.playSpeedLabel setTextColor:[UIColor blackColor]];
     [self.view addSubview:self.playSpeedLabel];

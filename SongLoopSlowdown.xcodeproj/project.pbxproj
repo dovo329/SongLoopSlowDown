@@ -18,6 +18,7 @@
 		A5629B5E1AE042A400BE9CC6 /* SongLoopSlowdownTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5629B5D1AE042A400BE9CC6 /* SongLoopSlowdownTests.m */; };
 		A5629B681AE0507200BE9CC6 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5629B671AE0507200BE9CC6 /* MediaPlayer.framework */; };
 		A5629B6A1AE0507C00BE9CC6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5629B691AE0507C00BE9CC6 /* AVFoundation.framework */; };
+		A57C0A171AE2F51400E008E1 /* lcdDisplay.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A57C0A161AE2F51400E008E1 /* lcdDisplay.ttf */; };
 		A5E5ECEC1AE18D8700198D59 /* PickSongButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = A5E5ECEA1AE18D8700198D59 /* PickSongButtonNormal.png */; };
 		A5E5ECED1AE18D8700198D59 /* PickSongButtonPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = A5E5ECEB1AE18D8700198D59 /* PickSongButtonPressed.png */; };
 		A5E5ECF21AE1970300198D59 /* MinusButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = A5E5ECEE1AE1970300198D59 /* MinusButtonNormal.png */; };
@@ -56,6 +57,7 @@
 		A5629B5D1AE042A400BE9CC6 /* SongLoopSlowdownTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SongLoopSlowdownTests.m; sourceTree = "<group>"; };
 		A5629B671AE0507200BE9CC6 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		A5629B691AE0507C00BE9CC6 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		A57C0A161AE2F51400E008E1 /* lcdDisplay.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = lcdDisplay.ttf; sourceTree = "<group>"; };
 		A5E5ECEA1AE18D8700198D59 /* PickSongButtonNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PickSongButtonNormal.png; sourceTree = "<group>"; };
 		A5E5ECEB1AE18D8700198D59 /* PickSongButtonPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PickSongButtonPressed.png; sourceTree = "<group>"; };
 		A5E5ECEE1AE1970300198D59 /* MinusButtonNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MinusButtonNormal.png; sourceTree = "<group>"; };
@@ -108,14 +110,8 @@
 		A5629B401AE042A400BE9CC6 /* SongLoopSlowdown */ = {
 			isa = PBXGroup;
 			children = (
-				A5E5ECF81AE1B98200198D59 /* LaunchScreen.png */,
-				A5E5ECF61AE1AFE100198D59 /* Background.png */,
-				A5E5ECEE1AE1970300198D59 /* MinusButtonNormal.png */,
-				A5E5ECEF1AE1970300198D59 /* MinusButtonPressed.png */,
-				A5E5ECF01AE1970300198D59 /* PlusButtonNormal.png */,
-				A5E5ECF11AE1970300198D59 /* PlusButtonPressed.png */,
-				A5E5ECEA1AE18D8700198D59 /* PickSongButtonNormal.png */,
-				A5E5ECEB1AE18D8700198D59 /* PickSongButtonPressed.png */,
+				A57C0A191AE2F72C00E008E1 /* Images */,
+				A57C0A181AE2F66500E008E1 /* Fonts */,
 				A5629B451AE042A400BE9CC6 /* AppDelegate.h */,
 				A5629B461AE042A400BE9CC6 /* AppDelegate.m */,
 				A5629B481AE042A400BE9CC6 /* ViewController.h */,
@@ -163,6 +159,29 @@
 				A5629B671AE0507200BE9CC6 /* MediaPlayer.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A57C0A181AE2F66500E008E1 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				A57C0A161AE2F51400E008E1 /* lcdDisplay.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		A57C0A191AE2F72C00E008E1 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				A5E5ECF81AE1B98200198D59 /* LaunchScreen.png */,
+				A5E5ECF61AE1AFE100198D59 /* Background.png */,
+				A5E5ECEE1AE1970300198D59 /* MinusButtonNormal.png */,
+				A5E5ECEF1AE1970300198D59 /* MinusButtonPressed.png */,
+				A5E5ECF01AE1970300198D59 /* PlusButtonNormal.png */,
+				A5E5ECF11AE1970300198D59 /* PlusButtonPressed.png */,
+				A5E5ECEA1AE18D8700198D59 /* PickSongButtonNormal.png */,
+				A5E5ECEB1AE18D8700198D59 /* PickSongButtonPressed.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -252,6 +271,7 @@
 				A51EC6951AE180270011792A /* LeftTrackSlice.png in Resources */,
 				A51EC6961AE180270011792A /* RightTrackSlice.png in Resources */,
 				A5E5ECF91AE1B98200198D59 /* LaunchScreen.png in Resources */,
+				A57C0A171AE2F51400E008E1 /* lcdDisplay.ttf in Resources */,
 				A5629B521AE042A400BE9CC6 /* LaunchScreen.xib in Resources */,
 				A5E5ECED1AE18D8700198D59 /* PickSongButtonPressed.png in Resources */,
 				A5E5ECF51AE1970300198D59 /* PlusButtonPressed.png in Resources */,
