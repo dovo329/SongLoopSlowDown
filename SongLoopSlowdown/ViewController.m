@@ -187,6 +187,11 @@ const CGFloat speedPrecision = 0.01;
     [self.audioPlayer play];
 }
 
+- (void)mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker
+{
+    [mediaPicker dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)updateSliderLabels
 {
     [self.positionLabel setText:[NSString stringWithFormat:@"Position: %0.1f seconds", self.positionSlider.value]];
