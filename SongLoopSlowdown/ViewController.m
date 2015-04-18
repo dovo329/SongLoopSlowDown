@@ -54,6 +54,7 @@
 const CGFloat carrierBarOffset = 20.0;
 const CGFloat numberOfHorizontalDivisions = 8.0;
 const CGFloat numberOfVerticalDivisions = 12.0;
+const CGFloat kPlaySpeedSliderMaximumValue = 3.0;
 
 const CGFloat loopPrecision = 0.1;
 const CGFloat speedPrecision = 0.01;
@@ -122,7 +123,7 @@ const CGFloat kGlobalFontSize = 24.0;
     self.endLoopbackSlider.value = self.audioPlayer.duration;
     
     self.playSpeedSlider.minimumValue = 0.01;
-    self.playSpeedSlider.maximumValue = 2.0;
+    self.playSpeedSlider.maximumValue = kPlaySpeedSliderMaximumValue;
     self.playSpeedSlider.value = 1.0;
 }
 
@@ -149,7 +150,7 @@ const CGFloat kGlobalFontSize = 24.0;
     self.songInfoLabel.numberOfLines = 0;
     [self.songInfoLabel setFont:[UIFont fontWithName:@"Open24DisplaySt" size:kGlobalFontSize]];
     //self.songInfoLabel.backgroundColor = [UIColor redColor];
-    [self.songInfoLabel setText:@"Please pick a Song"];
+    [self.songInfoLabel setText:@"Please Pick a Song"];
     [self.songInfoLabel setTextColor:[UIColor blackColor]];
     [self.view addSubview:self.songInfoLabel];
 }
@@ -538,7 +539,7 @@ const CGFloat kGlobalFontSize = 24.0;
     self.playSpeedSlider.value = 1.0;
     self.playSpeedSlider.continuous = YES;
     self.playSpeedSlider.minimumValue = 0.01;
-    self.playSpeedSlider.maximumValue = 2.0;
+    self.playSpeedSlider.maximumValue = kPlaySpeedSliderMaximumValue;
     
     [self.view addSubview:self.playSpeedSlider];
     
