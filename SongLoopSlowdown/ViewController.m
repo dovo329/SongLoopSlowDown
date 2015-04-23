@@ -178,16 +178,26 @@ const CGFloat kGlobalFontSize = 24.0;
     NSString *topDisplayTitle = [NSString stringWithFormat:@"%@: %@", title, artist];
     [self.songInfoLabel setText:topDisplayTitle];
     
+    /*if (!item) {
+        NSLog(@"MPMediaItem *item didn't alloc init properly.");
+    }*/
     // get a URL reference to the selected item
     NSURL *url = [item valueForProperty:MPMediaItemPropertyAssetURL];
-    
     //NSLog(@"url=%@", url);
     
-    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+    NSError *err;
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&err];
+    if (!self.audioPlayer) {
+        NSLog(@"AVAudioPlayer alloc/init failed");
+    }
     self.audioPlayer.enableRate=YES;
     self.audioPlayer.rate = 1.0f;
     [self.audioPlayer setNumberOfLoops:-1];
     [self.audioPlayer play];
+    if (err != nil) {
+        [self.songInfoLabel setText:@"Error opening song"];
+        //NSLog(@"AVAudioPlayer Error was %@.  Could be due to song being a DRM (Digital Rights Management) song", err);
+    }
 }
 
 - (void)mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker
