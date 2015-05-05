@@ -10,18 +10,16 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreen.png" translatesAutoresizingMaskIntoConstraints="NO" id="uAw-hc-lMe">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreen.png" translatesAutoresizingMaskIntoConstraints="NO" id="7BN-Ew-7b3">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="uAw-hc-lMe" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="JVa-d4-UHh"/>
-                <constraint firstItem="uAw-hc-lMe" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="NQP-an-P2k"/>
-                <constraint firstAttribute="centerX" secondItem="uAw-hc-lMe" secondAttribute="centerX" id="Tn4-UZ-ejj"/>
-                <constraint firstAttribute="bottom" secondItem="uAw-hc-lMe" secondAttribute="bottom" id="Xoa-rT-jZt"/>
-                <constraint firstAttribute="trailing" secondItem="uAw-hc-lMe" secondAttribute="trailing" id="hb5-b8-eSQ"/>
-                <constraint firstAttribute="centerY" secondItem="uAw-hc-lMe" secondAttribute="centerY" id="sgs-bp-qRC"/>
+                <constraint firstItem="7BN-Ew-7b3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="7qa-HW-MGH"/>
+                <constraint firstAttribute="bottom" secondItem="7BN-Ew-7b3" secondAttribute="bottom" id="Odf-5z-rtI"/>
+                <constraint firstItem="7BN-Ew-7b3" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="cCJ-Ns-LLE"/>
+                <constraint firstAttribute="trailing" secondItem="7BN-Ew-7b3" secondAttribute="trailing" id="cN8-Vk-1cC"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -29,6 +27,6 @@
         </view>
     </objects>
     <resources>
-        <image name="LaunchScreen.png" width="480" height="320"/>
+        <image name="LaunchScreen.png" width="960" height="640"/>
     </resources>
 </document>

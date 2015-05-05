@@ -26,6 +26,17 @@
 @property (strong, nonatomic) UIImage *plusButtonPressedImage;
 @property (strong, nonatomic) UIImage *minusButtonNormalImage;
 @property (strong, nonatomic) UIImage *minusButtonPressedImage;
+
+@property (strong, nonatomic) UIImage *normalPlayNormalImage;
+@property (strong, nonatomic) UIImage *normalPlayPressedImage;
+@property (strong, nonatomic) UIImage *slowPlayNormalImage;
+@property (strong, nonatomic) UIImage *slowPlayPressedImage;
+
+@property (strong, nonatomic) UIImage *normalStopNormalImage;
+@property (strong, nonatomic) UIImage *normalStopPressedImage;
+@property (strong, nonatomic) UIImage *slowStopNormalImage;
+@property (strong, nonatomic) UIImage *slowStopPressedImage;
+
 @property (strong, nonatomic) UIImage *backgroundImage;
 
 
@@ -47,7 +58,13 @@
 @property (strong, nonatomic) UIButton *playSpeedMinusButton;
 @property (strong, nonatomic) UIButton *playSpeedPlusButton;
 
+@property (strong, nonatomic) UIButton *normalPlayStopButton;
+@property (strong, nonatomic) UIButton *slowPlayStopButton;
+
 @property (strong, nonatomic) NSTimer *updatePositionTimer;
+
+@property (nonatomic) bool isPlaying;
+@property (nonatomic) bool isSlow;
 
 @end
 
@@ -69,7 +86,8 @@ const CGFloat kGlobalFontSize = 24.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
+    self.isPlaying = true;
+    self.isSlow = false;
     [self loadImages];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:self.backgroundImage];
     backgroundImageView.frame = [[UIScreen mainScreen] bounds];
@@ -104,6 +122,16 @@ const CGFloat kGlobalFontSize = 24.0;
     
     self.minusButtonNormalImage = [UIImage imageNamed:@"MinusButtonNormal.png"];
     self.minusButtonPressedImage = [UIImage imageNamed:@"MinusButtonPressed.png"];
+    
+    self.normalPlayNormalImage = [UIImage imageNamed:@"PlayNormal.png"];
+    self.normalPlayPressedImage = [UIImage imageNamed:@"PlayNormalPressed.png"];
+    self.slowPlayNormalImage = [UIImage imageNamed:@"PlaySlow.png"];
+    self.slowPlayPressedImage = [UIImage imageNamed:@"PlaySlowPressed.png"];
+
+    self.normalStopNormalImage = [UIImage imageNamed:@"StopNormal.png"];
+    self.normalStopPressedImage = [UIImage imageNamed:@"StopNormalPressed.png"];
+    self.slowStopNormalImage = [UIImage imageNamed:@"StopSlow.png"];
+    self.slowStopPressedImage = [UIImage imageNamed:@"StopSlowPressed.png"];
 
     self.backgroundImage = [UIImage imageNamed:@"Background.png"];
 }
@@ -129,9 +157,11 @@ const CGFloat kGlobalFontSize = 24.0;
 
 - (void)createTopBar {
     CGRect mainRect = [[UIScreen mainScreen] bounds];
+    CGFloat leftXMargin = 15.0;
+    
     CGFloat buttonWidth = CGRectGetWidth(mainRect)/4.0;
     CGFloat buttonHeight = CGRectGetHeight(mainRect)*(2.0/numberOfVerticalDivisions);
-    CGRect buttonRect = CGRectMake(CGRectGetMinX(mainRect)+20.0, CGRectGetMinY(mainRect)+carrierBarOffset, buttonWidth, buttonHeight);
+    CGRect buttonRect = CGRectMake(CGRectGetMinX(mainRect)+leftXMargin, CGRectGetMinY(mainRect)+carrierBarOffset, buttonWidth, buttonHeight);
     self.pickSongButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.pickSongButton addTarget:self action:@selector(pickSong) forControlEvents:UIControlEventTouchUpInside];
     self.pickSongButton.frame = buttonRect;
@@ -142,17 +172,52 @@ const CGFloat kGlobalFontSize = 24.0;
     //[self.pickSongButton setTitle:@"Pick Song" forState:UIControlStateNormal];
     [self.view addSubview:self.pickSongButton];
     
-    CGFloat songInfoOriginX = CGRectGetMinX(mainRect)+20.0+buttonWidth+20.0;
-    CGFloat songInfoWidth = CGRectGetWidth(mainRect)*(5.0/8.0);
+    CGFloat songInfoOriginX = leftXMargin+buttonWidth+leftXMargin;
+    CGFloat songInfoWidth = CGRectGetWidth(mainRect)*(3.0/8.0);
     CGFloat songInfoHeight = CGRectGetHeight(mainRect)*(2.0/numberOfVerticalDivisions);
     CGRect songInfoRect = CGRectMake(songInfoOriginX, CGRectGetMinY(mainRect)+carrierBarOffset, songInfoWidth, songInfoHeight);
     self.songInfoLabel = [[UILabel alloc] initWithFrame:songInfoRect];
-    self.songInfoLabel.numberOfLines = 0;
+    //self.songInfoLabel.backgroundColor = [UIColor redColor];
     [self.songInfoLabel setFont:[UIFont fontWithName:@"Open24DisplaySt" size:kGlobalFontSize]];
     //self.songInfoLabel.backgroundColor = [UIColor redColor];
     [self.songInfoLabel setText:@"Please Pick a Song"];
+    //[self.songInfoLabel setText:@"Song Loop Slowdown"];
+    //[self.songInfoLabel setText:@"abcdefghijklmnopqrstuvwxyz0123456789"];
     [self.songInfoLabel setTextColor:[UIColor blackColor]];
+    self.songInfoLabel.numberOfLines = 2;
+    self.songInfoLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    [self.songInfoLabel sizeToFit];
     [self.view addSubview:self.songInfoLabel];
+    
+    buttonWidth = buttonHeight;
+    buttonRect = CGRectMake(songInfoOriginX+songInfoWidth+10.0, CGRectGetMinY(mainRect)+carrierBarOffset, buttonWidth, buttonHeight);
+    self.normalPlayStopButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.normalPlayStopButton.frame = buttonRect;
+    [self.normalPlayStopButton addTarget:self action:@selector(playNormalButtonHandler) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.normalPlayStopButton];
+    
+    buttonWidth = buttonHeight;
+    buttonRect = CGRectMake(songInfoOriginX+songInfoWidth+buttonWidth+10.0+10.0, CGRectGetMinY(mainRect)+carrierBarOffset, buttonWidth, buttonHeight);
+    self.slowPlayStopButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.slowPlayStopButton.frame = buttonRect;
+    [self.view addSubview:self.slowPlayStopButton];
+    [self.slowPlayStopButton addTarget:self action:@selector(playSlowButtonHandler) forControlEvents:UIControlEventTouchUpInside];
+    [self updatePlayStopImages];
+}
+
+- (void)updatePlayStopImages
+{
+    if (!self.isPlaying) {
+        [self.normalPlayStopButton setImage:self.normalPlayNormalImage forState:UIControlStateNormal];
+        [self.normalPlayStopButton setImage:self.normalPlayPressedImage forState:UIControlStateHighlighted];
+        [self.slowPlayStopButton setImage:self.slowPlayNormalImage forState:UIControlStateNormal];
+        [self.slowPlayStopButton setImage:self.slowPlayPressedImage forState:UIControlStateHighlighted];
+    } else {
+        [self.normalPlayStopButton setImage:self.normalStopNormalImage forState:UIControlStateNormal];
+        [self.normalPlayStopButton setImage:self.normalStopPressedImage forState:UIControlStateHighlighted];
+        [self.slowPlayStopButton setImage:self.slowStopNormalImage forState:UIControlStateNormal];
+        [self.slowPlayStopButton setImage:self.slowStopPressedImage forState:UIControlStateHighlighted];
+    }
 }
 
 - (IBAction)pickSong
@@ -188,7 +253,7 @@ const CGFloat kGlobalFontSize = 24.0;
     NSError *err;
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&err];
     if (!self.audioPlayer) {
-        NSLog(@"AVAudioPlayer alloc/init failed");
+        //NSLog(@"AVAudioPlayer alloc/init failed");
     }
     self.audioPlayer.enableRate=YES;
     self.audioPlayer.rate = 1.0f;
@@ -283,6 +348,38 @@ const CGFloat kGlobalFontSize = 24.0;
     self.positionSlider.value = 0.0;
     
     [self.view addSubview:self.positionSlider];
+}
+
+- (IBAction)playNormalButtonHandler
+{
+    if (self.isPlaying) {
+        self.isPlaying = false;
+        [self.audioPlayer stop];
+        self.positionSlider.value = self.startLoopbackSlider.value;
+        self.audioPlayer.currentTime = self.positionSlider.value;
+    } else {
+        self.isPlaying = true;
+        self.isSlow = false;
+        self.audioPlayer.rate = 1.0f;
+        [self.audioPlayer play];
+    }
+    [self updatePlayStopImages];
+}
+
+- (IBAction)playSlowButtonHandler
+{
+    if (self.isPlaying) {
+        self.isPlaying = false;
+        [self.audioPlayer stop];
+        self.positionSlider.value = self.startLoopbackSlider.value;
+        self.audioPlayer.currentTime = self.positionSlider.value;
+    } else {
+        self.isPlaying = true;
+        self.isSlow = true;
+        self.audioPlayer.rate = self.playSpeedSlider.value;
+        [self.audioPlayer play];
+    }
+    [self updatePlayStopImages];
 }
 
 - (void)clipStartAndPositionSliders
@@ -498,14 +595,22 @@ const CGFloat kGlobalFontSize = 24.0;
 {
     self.playSpeedSlider.value += speedPrecision;
     [self updateSliderLabels];
-    self.audioPlayer.rate = self.playSpeedSlider.value;
+    if (self.isSlow) {
+        self.audioPlayer.rate = self.playSpeedSlider.value;
+    } else {
+        self.audioPlayer.rate = 1.0f;
+    }
 }
 
 - (IBAction)playSpeedMinusButtonHandler
 {
     self.playSpeedSlider.value -= speedPrecision;
     [self updateSliderLabels];
-    self.audioPlayer.rate = self.playSpeedSlider.value;
+    if (self.isSlow) {
+        self.audioPlayer.rate = self.playSpeedSlider.value;
+    } else {
+        self.audioPlayer.rate = 1.0f;
+    }
 }
 
 -(void)playSpeedSliderAction:(id)sender
@@ -514,7 +619,11 @@ const CGFloat kGlobalFontSize = 24.0;
     self.playSpeedSlider.value = round(slider.value*100.0)/100.0;
     //NSLog(@"end loopback slider value = %0.2f", slider.value);
     [self updateSliderLabels];
-    self.audioPlayer.rate = self.playSpeedSlider.value; // round to nearest percent
+    if (self.isSlow) {
+        self.audioPlayer.rate = self.playSpeedSlider.value; // round to nearest percent
+    } else {
+        self.audioPlayer.rate = 1.0f;
+    }
 }
 
 -(IBAction)createPlaySpeedSlider
